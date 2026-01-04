@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - AI Salary Predictor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Admin Portal</span>
+            </div>
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="#dashboard" class="nav-link active" data-page="dashboard-page">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#requests" class="nav-link" data-page="requests-page">
+                        <i class="fa-solid fa-inbox"></i>
+                        <span>Company Requests</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#companies" class="nav-link" data-page="companies-page">
+                        <i class="fa-solid fa-building-circle-check"></i>
+                        <span>Approved Companies</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#automation" class="nav-link" data-page="automation-page">
+                        <i class="fa-solid fa-robot"></i>
+                        <span>Automation Center</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- In admin_panel.html, update the sidebar footer section -->
+<div class="sidebar-footer">
+    <div class="admin-user-info">
+        <div class="avatar-circle" id="admin-avatar">A</div>
+        <div class="admin-details">
+            <div class="admin-name" id="admin-username">Admin</div>
+            <!-- Removed the admin-role div -->
+        </div>
+    </div>
+    <button class="btn btn-logout" title="Logout" onclick="adminLogout()">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    </button>
+</div>
+        </nav>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-titles">
+                    <h1 id="page-title">Dashboard</h1>
+                    <p id="page-subtitle">System Overview & Analytics</p>
+                </div>
+            </header>
+
+            <div id="dashboard-page" class="page-section">
+                <div class="stats-grid">
+                    <div class="stat-card total">
+                        <div class="icon-box"><i class="fa-solid fa-layer-group"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Requests</span>
+                            <span class="stat-number" id="total-requests">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card pending">
+                        <div class="icon-box"><i class="fa-solid fa-hourglass-half"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Pending</span>
+                            <span class="stat-number" id="pending-requests">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card approved">
+                        <div class="icon-box"><i class="fa-solid fa-check-circle"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Approved</span>
+                            <span class="stat-number" id="approved-requests">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card rejected">
+                        <div class="icon-box"><i class="fa-solid fa-times-circle"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Rejected</span>
+                            <span class="stat-number" id="rejected-requests">0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analytics-row">
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h3><i class="fa-solid fa-chart-pie"></i> Approval Distribution</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="approval-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="requests-page" class="page-section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-inbox"></i> Company Requests</h3>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn-sm btn-outline" onclick="refreshRequests()">
+                                <i class="fa-solid fa-rotate"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="data-table" id="requests-table">
+                                <thead>
+                                    <tr>
+                                        <th>Company Details</th>
+                                        <th>Contact Information</th>
+                                        <th>Submission Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="requests-body">
+                                    <!-- Data loaded via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="companies-page" class="page-section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-building-circle-check"></i> Approved Companies</h3>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn-sm btn-outline" onclick="loadApprovedCompanies()">
+                                <i class="fa-solid fa-rotate"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Company</th>
+                                        <th>Username</th>
+                                        <th>Model Accuracy</th>
+                                        <th>Data Points</th>
+                                        <th>Approved Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="companies-body">
+                                    <!-- Data loaded via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="automation-page" class="page-section hidden">
+                <div class="automation-controls-card">
+                    <div class="control-header">
+                        <div class="control-icon">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="control-info">
+                            <h2>System Automation Center</h2>
+                            <p>Manage automatic maintenance tasks for account inactivity and model accuracy monitoring.</p>
+                        </div>
+                        <div class="control-actions">
+                            <div class="mode-toggle">
+                                <span class="toggle-label">Auto Mode</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="automation-mode-toggle">
+                                    <!-- <span class="slider round"></span> -->
+                                </label>
+                            </div>
+                            <button id="run-automation-btn" class="btn btn-primary">
+                                <i class="fa-solid fa-play"></i> Run Now
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mode-status-bar" id="mode-description">
+                        <i class="fa-solid fa-hand"></i>
+                        System is in <strong>Manual Mode</strong>. Actions require admin approval.
+                    </div>
+                </div>
+
+                <div class="automation-grid">
+                    <div class="card">
+                        <div class="card-header warning-header">
+                            <h3><i class="fa-solid fa-user-clock"></i> Inactive Accounts</h3>
+                            <span class="badge" id="inactive-count">0</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Company</th>
+                                            <th>Inactive Days</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="inactive-accounts-body">
+                                        <!-- Data loaded via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header danger-header">
+                            <h3><i class="fa-solid fa-chart-line"></i> Low Accuracy Models</h3>
+                            <span class="badge" id="low-acc-count">0</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Company</th>
+                                            <th>Accuracy</th>
+                                            <th>Last Check</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="low-accuracy-body">
+                                        <!-- Data loaded via JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="action-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Action</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-message"></div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/admin_notifications.js"></script>
+</body>
+</html>

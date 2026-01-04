@@ -1,0 +1,179 @@
+{
+  "categorical": {
+    "gender": [
+      "Female",
+      "Male",
+      "Other"
+    ],
+    "role": [
+      "Data Analyst",
+      "Data Scientist",
+      "DevOps Engineer",
+      "HR Executive",
+      "Product Manager",
+      "Project Manager",
+      "QA Engineer",
+      "Senior Developer",
+      "Software Engineer",
+      "System Administrator",
+      "Technical Lead",
+      "UI/UX Designer"
+    ],
+    "sector": [
+      "IT & Software"
+    ],
+    "company": [
+      "TechNova Systems"
+    ],
+    "department": [
+      "DevOps",
+      "Development",
+      "Finance",
+      "HR",
+      "Management",
+      "Sales",
+      "Support",
+      "Testing"
+    ],
+    "education": [
+      "B.Sc",
+      "B.Tech",
+      "BCA",
+      "M.Tech",
+      "MBA",
+      "MCA",
+      "MSc",
+      "PhD"
+    ]
+  },
+  "numeric_meta": {
+    "age": {
+      "min": 21,
+      "max": 59,
+      "step": 1,
+      "suggested_min": 31,
+      "suggested_max": 50,
+      "average": 40,
+      "median": 40
+    },
+    "experience": {
+      "min": 0,
+      "max": 31,
+      "step": 0.5,
+      "suggested_min": 10,
+      "suggested_max": 19,
+      "average": 14,
+      "median": 15
+    }
+  },
+  "validation_rules": {
+    "age": {
+      "min": 21,
+      "max": 59,
+      "required": true,
+      "type": "number"
+    },
+    "experience": {
+      "min": 0,
+      "max": 31,
+      "required": true,
+      "type": "number"
+    }
+  },
+  "field_config": {
+    "gender": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "Male",
+        "Female",
+        "Other"
+      ]
+    },
+    "role": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": true,
+      "top_suggestions": [
+        "HR Executive",
+        "Product Manager",
+        "Senior Developer",
+        "Data Analyst",
+        "Software Engineer"
+      ]
+    },
+    "sector": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "IT & Software"
+      ]
+    },
+    "company": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "TechNova Systems"
+      ]
+    },
+    "department": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "Support",
+        "Finance",
+        "Sales",
+        "DevOps",
+        "Management"
+      ]
+    },
+    "education": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "MCA",
+        "B.Tech",
+        "B.Sc",
+        "MBA",
+        "BCA"
+      ]
+    }
+  },
+  "field_groups": {
+    "personal": [
+      "age",
+      "gender",
+      "experience"
+    ],
+    "professional": [
+      "role",
+      "department",
+      "education"
+    ],
+    "organizational": [
+      "company",
+      "sector"
+    ]
+  },
+  "field_descriptions": {
+    "age": "Employee age in years (18-70)",
+    "experience": "Total years of professional experience",
+    "gender": "Gender identity",
+    "role": "Job title or position",
+    "department": "Organizational department",
+    "education": "Highest education level",
+    "company": "Company type or organization",
+    "sector": "Industry sector"
+  }
+}

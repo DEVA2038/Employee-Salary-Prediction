@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Registration - AI Salary Predictor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/company.css">
+</head>
+<body>
+    <div class="header-icon-btn top-right">
+        <a href="/" class="icon-btn" data-tooltip="Back to Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+    </div>
+
+    <div class="header-icon-btn top-left">
+        <button class="icon-btn" id="theme-toggle" data-tooltip="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </div>
+
+    <div class="company-container">
+        <header class="company-header">
+            <h1><i class="fa-solid fa-building"></i> Company Registration</h1>
+            <p class="subtitle">Register your company to get customized salary predictions for your organization</p>
+        </header>
+
+        <div class="company-card">
+            <form id="company-form" class="company-form">
+                
+                <div class="registration-grid">
+                    
+                    <div class="form-section">
+                        <h2><i class="fa-solid fa-user-tie"></i> Company Information</h2>
+                        <p class="description">Fill in your company details to get started.</p>
+                        
+                        <div class="input-group">
+                            <label for="company_name">
+                                <i class="fa-solid fa-building"></i> Company Name *
+                            </label>
+                            <input type="text" id="company_name" name="company_name" class="input" 
+                                   placeholder="Enter your company name" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="contact_person">
+                                <i class="fa-solid fa-user"></i> Contact Person *
+                            </label>
+                            <input type="text" id="contact_person" name="contact_person" class="input" 
+                                   placeholder="Full name of contact person" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="email">
+                                <i class="fa-solid fa-envelope"></i> Email Address *
+                            </label>
+                            <input type="email" id="email" name="email" class="input" 
+                                   placeholder="company@example.com" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="phone">
+                                <i class="fa-solid fa-phone"></i> Phone Number *
+                            </label>
+                            <input type="tel" id="phone" name="phone" class="input" 
+                                   placeholder="+1 (555) 123-4567" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2><i class="fa-solid fa-database"></i> Upload Salary Dataset</h2>
+                        <p class="description">Upload your company's salary data in CSV format.</p>
+                        
+                        <div class="upload-section">
+                            <div class="upload-area" id="upload-area">
+                                <i class="fa-solid fa-cloud-upload-alt"></i>
+                                <p><strong>Click to upload or drag & drop *</strong></p>
+                                <p class="file-requirements">
+                                    <i class="fa-solid fa-info-circle"></i>
+                                    Required: age, experience, gender, role, sector, company, department, education, salary
+                                </p>
+                                <input type="file" id="dataset" name="dataset" accept=".csv" hidden required>
+                            </div>
+                            <div id="file-info" class="file-info hidden">
+                                </div>
+                        </div>
+                        
+                        <div class="feature-item" style="margin-top: 1.5rem; background-color: var(--bg-main);">
+                            <i class="fa-solid fa-shield-alt" style="color: var(--primary);"></i>
+                            <div class="feature-content">
+                                <span class="feature-name">Secure & Confidential</span>
+                                <p class="feature-description">Your data is used only to train your private model and is never shared.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="result" class="hidden" style="margin-bottom: 1.5rem;"></div>
+
+                <div class="form-actions">
+                    <a href="/company-login" class="btn btn-outline">
+                        <i class="fa-solid fa-sign-in-alt"></i> Company Login
+                    </a>
+                    <button type="submit" class="btn btn-primary" id="submit-btn">
+                        <i class="fa-solid fa-paper-plane"></i> Submit Registration
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="success-modal" class="modal-overlay hidden">
+        <div class="modal-content text-center">
+            <i class="fa-solid fa-check-circle fa-6x modal-icon-success"></i>
+            <h2 style="justify-content: center;">Request Submitted!</h2>
+            <p>Your registration request was sent successfully.</p>
+            <p>Your credentials will be mailed to you shortly.</p>
+            <p class="redirect-message" style="margin-top: 1.5rem;">Redirecting to homepage in <span id="redirect-countdown">5</span>...</p>
+        </div>
+    </div>
+
+    <script src="/static/js/company.js"></script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+{
+  "company_name": "DJ",
+  "model_accuracy": 0.9008767998681677,
+  "cv_accuracy": 0.9024803729878071,
+  "rmse": 120173.17590358769,
+  "mae": 88263.33915749815,
+  "mape": 6.705423693444942,
+  "features_used": {
+    "numeric": [
+      "age",
+      "experience",
+      "experience_squared",
+      "age_experience_ratio"
+    ],
+    "categorical": [
+      "gender",
+      "role",
+      "sector",
+      "company",
+      "department",
+      "education"
+    ]
+  },
+  "dataset_analysis": {
+    "numeric_ranges": {
+      "age": {
+        "min": 22.0,
+        "max": 59.0,
+        "mean": 40.56757,
+        "median": 41.0,
+        "std": 10.958046134364045,
+        "q25": 31.0,
+        "q75": 50.0
+      },
+      "experience": {
+        "min": 0.0,
+        "max": 37.0,
+        "mean": 16.67631,
+        "median": 17.0,
+        "std": 10.87598536476013,
+        "q25": 7.0,
+        "q75": 26.0
+      },
+      "salary": {
+        "min": 400000.0,
+        "max": 2489783.0,
+        "mean": 1257346.34713,
+        "median": 1248003.5,
+        "std": 386194.33544365154,
+        "q25": 993103.0,
+        "q75": 1522730.5
+      }
+    },
+    "categorical_options": {
+      "gender": {
+        "options": [
+          "Female",
+          "Male"
+        ],
+        "counts": {
+          "Male": 50094,
+          "Female": 49906
+        },
+        "top_5": [
+          "Male",
+          "Female"
+        ],
+        "unique_count": 2
+      },
+      "role": {
+        "options": [
+          "Business Analyst",
+          "Data Scientist",
+          "HR Manager",
+          "Industrial Engineer",
+          "Operations Manager",
+          "Product Manager",
+          "Robotics Engineer",
+          "Software Engineer"
+        ],
+        "counts": {
+          "Data Scientist": 12746,
+          "Product Manager": 12620,
+          "Robotics Engineer": 12594,
+          "Software Engineer": 12516,
+          "Operations Manager": 12446,
+          "HR Manager": 12413,
+          "Business Analyst": 12383,
+          "Industrial Engineer": 12282
+        },
+        "top_5": [
+          "Data Scientist",
+          "Product Manager",
+          "Robotics Engineer",
+          "Software Engineer",
+          "Operations Manager"
+        ],
+        "unique_count": 8
+      },
+      "sector": {
+        "options": [
+          "government",
+          "private"
+        ],
+        "counts": {
+          "private": 74796,
+          "government": 25204
+        },
+        "top_5": [
+          "private",
+          "government"
+        ],
+        "unique_count": 2
+      },
+      "company": {
+        "options": [
+          "govt_org",
+          "mnc",
+          "pvt_company",
+          "startup"
+        ],
+        "counts": {
+          "govt_org": 25204,
+          "mnc": 25024,
+          "startup": 24942,
+          "pvt_company": 24830
+        },
+        "top_5": [
+          "govt_org",
+          "mnc",
+          "startup",
+          "pvt_company"
+        ],
+        "unique_count": 4
+      },
+      "department": {
+        "options": [
+          "Engineering",
+          "Finance",
+          "HR",
+          "Operations",
+          "R&D",
+          "Support"
+        ],
+        "counts": {
+          "Finance": 16775,
+          "R&D": 16701,
+          "Support": 16691,
+          "HR": 16645,
+          "Engineering": 16621,
+          "Operations": 16567
+        },
+        "top_5": [
+          "Finance",
+          "R&D",
+          "Support",
+          "HR",
+          "Engineering"
+        ],
+        "unique_count": 6
+      },
+      "education": {
+        "options": [
+          "B.Tech",
+          "Diploma",
+          "M.Sc",
+          "M.Tech",
+          "MBA",
+          "PhD"
+        ],
+        "counts": {
+          "Diploma": 16898,
+          "M.Sc": 16848,
+          "M.Tech": 16606,
+          "PhD": 16600,
+          "MBA": 16549,
+          "B.Tech": 16499
+        },
+        "top_5": [
+          "Diploma",
+          "M.Sc",
+          "M.Tech",
+          "PhD",
+          "MBA"
+        ],
+        "unique_count": 6
+      }
+    },
+    "data_quality": {
+      "total_records": 100000,
+      "missing_values": {
+        "department": 0,
+        "role": 0,
+        "age": 0,
+        "education": 0,
+        "salary": 0,
+        "gender": 0,
+        "company": 0,
+        "experience": 0,
+        "sector": 0
+      },
+      "duplicate_records": "2450",
+      "salary_stats": {
+        "min_salary": 400000.0,
+        "max_salary": 2489783.0,
+        "avg_salary": 1257346.34713,
+        "median_salary": 1248003.5
+      }
+    },
+    "feature_importance": {}
+  },
+  "dataset_size": 97550,
+  "training_records": 78040,
+  "test_records": 19510,
+  "model_parameters": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "criterion": "squared_error",
+    "max_depth": 25,
+    "max_features": "sqrt",
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 2,
+    "min_samples_split": 5,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": null,
+    "n_estimators": 200,
+    "n_jobs": -1,
+    "oob_score": false,
+    "random_state": 42,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "training_date": "2026-01-04T08:40:04.051811"
+}

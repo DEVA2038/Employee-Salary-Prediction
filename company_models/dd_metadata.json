@@ -1,0 +1,363 @@
+{
+  "company_name": "DD",
+  "model_accuracy": -0.005813620847678225,
+  "cv_accuracy": -0.10824131609209879,
+  "rmse": 53111.22934794089,
+  "mae": 46001.720343424866,
+  "mape": 43.23035506306338,
+  "features_used": {
+    "numeric": [
+      "age",
+      "experience",
+      "experience_squared",
+      "age_experience_ratio"
+    ],
+    "categorical": [
+      "gender",
+      "role",
+      "sector",
+      "company",
+      "department",
+      "education"
+    ]
+  },
+  "dataset_analysis": {
+    "numeric_ranges": {
+      "age": {
+        "min": 22.0,
+        "max": 60.0,
+        "mean": 39.43,
+        "median": 37.5,
+        "std": 11.57780443588315,
+        "q25": 29.75,
+        "q75": 49.25
+      },
+      "experience": {
+        "min": 0.0,
+        "max": 39.0,
+        "mean": 17.16,
+        "median": 14.0,
+        "std": 11.66685714130226,
+        "q25": 7.0,
+        "q75": 26.25
+      },
+      "salary": {
+        "min": 50913.0,
+        "max": 199673.0,
+        "mean": 121115.58,
+        "median": 109612.0,
+        "std": 46894.13420925862,
+        "q25": 78853.75,
+        "q75": 164721.25
+      }
+    },
+    "categorical_options": {
+      "gender": {
+        "options": [
+          "Female",
+          "Male",
+          "Other"
+        ],
+        "counts": {
+          "Female": 39,
+          "Other": 34,
+          "Male": 27
+        },
+        "top_5": [
+          "Female",
+          "Other",
+          "Male"
+        ],
+        "unique_count": 3
+      },
+      "role": {
+        "options": [
+          "AI Engineer",
+          "Agile Coach",
+          "Automation Tester",
+          "BI Developer",
+          "Backend Developer",
+          "Blockchain Engineer",
+          "Brand Manager",
+          "Business Development Manager",
+          "Cloud Architect",
+          "Cloud Engineer",
+          "Compliance Officer",
+          "Customer Analyst",
+          "Customer Support",
+          "Data Manager",
+          "Data Scientist",
+          "Database Admin",
+          "Database Engineer",
+          "Embedded Systems Engineer",
+          "Finance Analyst",
+          "Finance Officer",
+          "Frontend Developer",
+          "Full Stack Engineer",
+          "Graphic Designer",
+          "HR Assistant",
+          "HR Recruiter",
+          "Hardware Engineer",
+          "IT Consultant",
+          "IT Manager",
+          "Industrial Engineer",
+          "Information Security Analyst",
+          "Legal Advisor",
+          "ML Engineer",
+          "ML Researcher",
+          "Marketing Manager",
+          "Mechanical Engineer",
+          "Operations Analyst",
+          "Operations Coordinator",
+          "Operations Executive",
+          "Procurement Officer",
+          "Product Designer",
+          "Production Engineer",
+          "Project Manager",
+          "QA Engineer",
+          "QA Tester",
+          "Quality Manager",
+          "Recruitment Specialist",
+          "Research Associate",
+          "Research Scientist",
+          "Robotics Engineer",
+          "Sales Executive",
+          "Scrum Master",
+          "Software Architect",
+          "Software Developer",
+          "Solution Architect",
+          "Statistician",
+          "Strategy Analyst",
+          "Support Engineer",
+          "System Engineer",
+          "Systems Analyst",
+          "Team Lead",
+          "Tech Support Engineer",
+          "Training Coordinator",
+          "UI Designer"
+        ],
+        "counts": {
+          "Statistician": 4,
+          "Tech Support Engineer": 4,
+          "Industrial Engineer": 3,
+          "Graphic Designer": 3,
+          "Legal Advisor": 3,
+          "Business Development Manager": 3,
+          "Robotics Engineer": 3,
+          "AI Engineer": 3,
+          "Marketing Manager": 3,
+          "Frontend Developer": 3,
+          "QA Tester": 3,
+          "Data Scientist": 3,
+          "Finance Officer": 2,
+          "HR Assistant": 2,
+          "Scrum Master": 2,
+          "Quality Manager": 2,
+          "System Engineer": 2,
+          "Brand Manager": 2,
+          "QA Engineer": 2,
+          "Solution Architect": 2,
+          "Finance Analyst": 2,
+          "Team Lead": 2,
+          "Systems Analyst": 2,
+          "Procurement Officer": 1,
+          "Automation Tester": 1,
+          "Research Scientist": 1,
+          "Operations Executive": 1,
+          "BI Developer": 1,
+          "Product Designer": 1,
+          "Database Admin": 1,
+          "Project Manager": 1,
+          "Mechanical Engineer": 1,
+          "Blockchain Engineer": 1,
+          "Embedded Systems Engineer": 1,
+          "Backend Developer": 1,
+          "Sales Executive": 1,
+          "Support Engineer": 1,
+          "IT Consultant": 1,
+          "Research Associate": 1,
+          "Full Stack Engineer": 1,
+          "Customer Support": 1,
+          "ML Researcher": 1,
+          "Database Engineer": 1,
+          "Production Engineer": 1,
+          "Cloud Architect": 1,
+          "Information Security Analyst": 1,
+          "Software Developer": 1,
+          "Operations Analyst": 1,
+          "HR Recruiter": 1,
+          "Hardware Engineer": 1,
+          "Agile Coach": 1,
+          "Data Manager": 1,
+          "Cloud Engineer": 1,
+          "Software Architect": 1,
+          "ML Engineer": 1,
+          "UI Designer": 1,
+          "Compliance Officer": 1,
+          "Operations Coordinator": 1,
+          "Recruitment Specialist": 1,
+          "Customer Analyst": 1,
+          "Strategy Analyst": 1,
+          "Training Coordinator": 1,
+          "IT Manager": 1
+        },
+        "top_5": [
+          "Statistician",
+          "Tech Support Engineer",
+          "Industrial Engineer",
+          "Graphic Designer",
+          "Legal Advisor"
+        ],
+        "unique_count": 63
+      },
+      "sector": {
+        "options": [
+          "government",
+          "private",
+          "startup"
+        ],
+        "counts": {
+          "private": 37,
+          "government": 34,
+          "startup": 29
+        },
+        "top_5": [
+          "private",
+          "government",
+          "startup"
+        ],
+        "unique_count": 3
+      },
+      "company": {
+        "options": [
+          "govt_company",
+          "mnc",
+          "pvt_company",
+          "startup"
+        ],
+        "counts": {
+          "startup": 31,
+          "pvt_company": 25,
+          "mnc": 22,
+          "govt_company": 22
+        },
+        "top_5": [
+          "startup",
+          "pvt_company",
+          "mnc",
+          "govt_company"
+        ],
+        "unique_count": 4
+      },
+      "department": {
+        "options": [
+          "Finance",
+          "HR",
+          "IT",
+          "Marketing",
+          "Operations",
+          "R&D",
+          "Sales",
+          "Support"
+        ],
+        "counts": {
+          "IT": 16,
+          "Sales": 15,
+          "HR": 15,
+          "Operations": 13,
+          "Marketing": 13,
+          "Support": 12,
+          "Finance": 9,
+          "R&D": 7
+        },
+        "top_5": [
+          "IT",
+          "Sales",
+          "HR",
+          "Operations",
+          "Marketing"
+        ],
+        "unique_count": 8
+      },
+      "education": {
+        "options": [
+          "B.Sc",
+          "B.Tech",
+          "Diploma",
+          "M.Sc",
+          "M.Tech",
+          "MBA",
+          "PhD",
+          "Unknown"
+        ],
+        "counts": {
+          "Unknown": 19,
+          "Diploma": 15,
+          "PhD": 15,
+          "B.Tech": 11,
+          "MBA": 11,
+          "M.Sc": 10,
+          "M.Tech": 10,
+          "B.Sc": 9
+        },
+        "top_5": [
+          "Unknown",
+          "Diploma",
+          "PhD",
+          "B.Tech",
+          "MBA"
+        ],
+        "unique_count": 8
+      }
+    },
+    "data_quality": {
+      "total_records": 100,
+      "missing_values": {
+        "employee_id": 0,
+        "name": 0,
+        "age": 0,
+        "experience": 0,
+        "role": 0,
+        "company": 0,
+        "sector": 0,
+        "education": 0,
+        "location": 0,
+        "department": 0,
+        "gender": 0,
+        "salary": 0
+      },
+      "duplicate_records": "0",
+      "salary_stats": {
+        "min_salary": 50913.0,
+        "max_salary": 199673.0,
+        "avg_salary": 121115.58,
+        "median_salary": 109612.0
+      }
+    },
+    "feature_importance": {}
+  },
+  "dataset_size": 100,
+  "training_records": 80,
+  "test_records": 20,
+  "model_parameters": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "criterion": "squared_error",
+    "max_depth": 25,
+    "max_features": "sqrt",
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 2,
+    "min_samples_split": 5,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": null,
+    "n_estimators": 200,
+    "n_jobs": -1,
+    "oob_score": false,
+    "random_state": 42,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "training_date": "2025-12-21T20:07:20.831880"
+}

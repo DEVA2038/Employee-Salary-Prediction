@@ -1,0 +1,468 @@
+/* static/css/settings.css - Enhanced Settings Styles */
+
+/* ==========================================================================
+   ENHANCED SETTINGS LAYOUT
+   ========================================================================== */
+
+/* Grid layout for settings sections */
+.settings-grid-enhanced {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Compact settings sections */
+.settings-section-compact {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: var(--transition);
+    height: 100%;
+}
+
+.settings-section-compact:hover {
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.settings-section-compact h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.settings-section-compact h3 i {
+    color: var(--primary);
+}
+
+/* ==========================================================================
+   DATASET HISTORY STYLES
+   ========================================================================== */
+
+.dataset-history-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    background: var(--bg-input);
+}
+
+.dataset-history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dataset-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-light);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.dataset-item:hover {
+    background: var(--bg-hover);
+}
+
+.dataset-item:last-child {
+    border-bottom: none;
+}
+
+.dataset-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-light);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.dataset-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.dataset-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dataset-name .active-badge {
+    background: var(--success);
+    color: white;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.dataset-meta {
+    display: flex;
+    gap: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.dataset-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.download-btn {
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: var(--text-primary);
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.download-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.no-datasets {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+}
+
+.no-datasets i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* ==========================================================================
+   THEME SWITCHER STYLES
+   ========================================================================== */
+
+.theme-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.theme-option {
+    position: relative;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: var(--radius);
+    padding: 1rem;
+    transition: var(--transition);
+    background: var(--bg-input);
+}
+
+.theme-option:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.theme-option.active {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.theme-preview {
+    width: 100%;
+    height: 60px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Default theme preview */
+.theme-default .theme-preview {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Dark theme preview */
+.theme-dark .theme-preview {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+}
+
+/* Custom color theme preview */
+.theme-custom .theme-preview {
+    background: linear-gradient(135deg, var(--custom-color, #667eea) 0%, 
+                                        color-mix(in srgb, var(--custom-color, #667eea) 70%, black) 100%);
+}
+
+.theme-option-label {
+    text-align: center;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+/* Color picker for custom theme */
+.color-picker-container {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-input);
+    border-radius: var(--radius);
+    border: 1px solid var(--border-light);
+}
+
+.color-picker-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.color-picker-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    min-width: 100px;
+}
+
+#custom-color-picker {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    background: var(--custom-color, #667eea);
+}
+
+#custom-color-value {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius);
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-family: monospace;
+}
+
+.color-presets {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.color-preset {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: var(--transition);
+}
+
+.color-preset:hover {
+    transform: scale(1.1);
+}
+
+.color-preset.active {
+    border-color: var(--text-primary);
+    box-shadow: 0 0 0 2px var(--bg-card);
+}
+
+/* ==========================================================================
+   COMPACT FORM STYLES
+   ========================================================================== */
+
+.compact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.compact-form .input-group {
+    margin-bottom: 0;
+}
+
+.compact-form .input-group label {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.compact-form .input {
+    height: 2.75rem;
+    font-size: 0.9rem;
+}
+
+.compact-form .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   UPLOAD AREA COMPACT
+   ========================================================================== */
+
+.upload-area-compact {
+    border: 2px dashed var(--border-default);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    margin: 1rem 0;
+}
+
+.upload-area-compact:hover {
+    border-color: var(--primary);
+    background: var(--bg-hover);
+}
+
+.upload-area-compact i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+}
+
+.file-info-compact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background: var(--bg-input);
+    border-radius: var(--radius);
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   PROGRESS INDICATORS
+   ========================================================================== */
+
+.progress-indicators {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.progress-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: var(--radius);
+    background: var(--bg-input);
+}
+
+.progress-status {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+}
+
+.progress-status.pending {
+    background: var(--warning);
+    animation: pulse 1.5s infinite;
+}
+
+.progress-text {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+
+.progress-time {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* ==========================================================================
+   DANGER ZONE COMPACT
+   ========================================================================== */
+
+.danger-zone-compact {
+    border-color: var(--danger);
+    background: linear-gradient(135deg, hsla(var(--danger-hue), 96%, 54%, 0.05), transparent);
+}
+
+.danger-zone-compact h3 {
+    color: var(--danger);
+}
+
+.warning-text-compact {
+    color: var(--danger);
+    background: hsla(var(--danger-hue), 96%, 54%, 0.1);
+    padding: 0.75rem;
+    border-radius: var(--radius);
+    border-left: 3px solid var(--danger);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.danger-actions-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.btn-danger-compact {
+    background: linear-gradient(135deg, var(--danger), hsl(var(--danger-hue), 96%, 45%));
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .settings-grid-enhanced {
+        grid-template-columns: 1fr;
+    }
+    
+    .theme-options {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .color-picker-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    #custom-color-value {
+        width: 100%;
+    }
+    
+    .dataset-meta {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}

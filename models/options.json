@@ -1,0 +1,70 @@
+{
+  "categorical": {
+    "gender": [
+      "Female",
+      "Male",
+      "Other"
+    ],
+    "role": [
+      "Business Analyst",
+      "Data Analyst",
+      "Database Admin",
+      "DevOps Engineer",
+      "HR Manager",
+      "ML Engineer",
+      "Network Engineer",
+      "Product Manager",
+      "Project Manager",
+      "QA Tester",
+      "Software Developer",
+      "System Engineer",
+      "UI/UX Designer"
+    ],
+    "sector": [
+      "government",
+      "private",
+      "startup"
+    ],
+    "company": [
+      "consultancy",
+      "govt_company",
+      "mnc",
+      "pvt_company",
+      "startup"
+    ],
+    "department": [
+      "Finance",
+      "HR",
+      "IT",
+      "Marketing",
+      "Operations",
+      "R&D",
+      "Sales",
+      "Support"
+    ],
+    "education": [
+      "B.Sc",
+      "B.Tech",
+      "Diploma",
+      "M.Sc",
+      "M.Tech",
+      "MBA",
+      "PhD",
+      "Unknown"
+    ]
+  },
+  "numeric_meta": {
+    "age": {
+      "min": 21.0,
+      "max": 59.0,
+      "median": 40.0,
+      "mean": 40.00448
+    },
+    "experience": {
+      "min": 0.0,
+      "max": 39.0,
+      "median": 16.0,
+      "mean": 16.22476
+    }
+  }
+}

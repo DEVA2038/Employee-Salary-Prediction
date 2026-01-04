@@ -1,0 +1,263 @@
+{
+  "company_name": "NDP",
+  "model_accuracy": 0.5585376564120035,
+  "cv_accuracy": 0.5528406165313848,
+  "rmse": 26517.404127267167,
+  "mae": 17466.864176605337,
+  "mape": 23.878515567861623,
+  "features_used": {
+    "numeric": [
+      "age",
+      "experience",
+      "experience_squared",
+      "age_experience_ratio"
+    ],
+    "categorical": [
+      "gender",
+      "role",
+      "sector",
+      "company",
+      "department",
+      "education"
+    ]
+  },
+  "dataset_analysis": {
+    "numeric_ranges": {
+      "age": {
+        "min": 21.0,
+        "max": 59.0,
+        "mean": 40.00448,
+        "median": 40.0,
+        "std": 11.263976095178357,
+        "q25": 30.0,
+        "q75": 50.0
+      },
+      "experience": {
+        "min": 0.0,
+        "max": 39.0,
+        "mean": 16.22476,
+        "median": 16.0,
+        "std": 11.104099646661105,
+        "q25": 6.0,
+        "q75": 26.0
+      },
+      "salary": {
+        "min": 15000.0,
+        "max": 404746.0,
+        "mean": 105231.5006,
+        "median": 100861.5,
+        "std": 39989.03873274243,
+        "q25": 77242.25,
+        "q75": 129040.25
+      }
+    },
+    "categorical_options": {
+      "gender": {
+        "options": [
+          "Female",
+          "Male",
+          "Other"
+        ],
+        "counts": {
+          "Female": 24004,
+          "Male": 23944,
+          "Other": 2052
+        },
+        "top_5": [
+          "Female",
+          "Male",
+          "Other"
+        ],
+        "unique_count": 3
+      },
+      "role": {
+        "options": [
+          "Business Analyst",
+          "Data Analyst",
+          "Database Admin",
+          "DevOps Engineer",
+          "HR Manager",
+          "ML Engineer",
+          "Network Engineer",
+          "Product Manager",
+          "Project Manager",
+          "QA Tester",
+          "Software Developer",
+          "System Engineer",
+          "UI/UX Designer"
+        ],
+        "counts": {
+          "System Engineer": 3962,
+          "Project Manager": 3949,
+          "Software Developer": 3902,
+          "Data Analyst": 3891,
+          "ML Engineer": 3875,
+          "HR Manager": 3850,
+          "Network Engineer": 3844,
+          "QA Tester": 3841,
+          "DevOps Engineer": 3831,
+          "UI/UX Designer": 3791,
+          "Product Manager": 3781,
+          "Business Analyst": 3754,
+          "Database Admin": 3729
+        },
+        "top_5": [
+          "System Engineer",
+          "Project Manager",
+          "Software Developer",
+          "Data Analyst",
+          "ML Engineer"
+        ],
+        "unique_count": 13
+      },
+      "sector": {
+        "options": [
+          "government",
+          "private",
+          "startup"
+        ],
+        "counts": {
+          "private": 32534,
+          "startup": 9896,
+          "government": 7570
+        },
+        "top_5": [
+          "private",
+          "startup",
+          "government"
+        ],
+        "unique_count": 3
+      },
+      "company": {
+        "options": [
+          "consultancy",
+          "govt_company",
+          "mnc",
+          "pvt_company",
+          "startup"
+        ],
+        "counts": {
+          "pvt_company": 17430,
+          "mnc": 10035,
+          "startup": 9896,
+          "govt_company": 7570,
+          "consultancy": 5069
+        },
+        "top_5": [
+          "pvt_company",
+          "mnc",
+          "startup",
+          "govt_company",
+          "consultancy"
+        ],
+        "unique_count": 5
+      },
+      "department": {
+        "options": [
+          "Finance",
+          "HR",
+          "IT",
+          "Marketing",
+          "Operations",
+          "R&D",
+          "Sales",
+          "Support"
+        ],
+        "counts": {
+          "Marketing": 6312,
+          "Operations": 6309,
+          "R&D": 6281,
+          "Support": 6272,
+          "Sales": 6265,
+          "IT": 6201,
+          "HR": 6188,
+          "Finance": 6172
+        },
+        "top_5": [
+          "Marketing",
+          "Operations",
+          "R&D",
+          "Support",
+          "Sales"
+        ],
+        "unique_count": 8
+      },
+      "education": {
+        "options": [
+          "B.Sc",
+          "B.Tech",
+          "Diploma",
+          "M.Sc",
+          "M.Tech",
+          "MBA",
+          "PhD",
+          "Unknown"
+        ],
+        "counts": {
+          "B.Tech": 19718,
+          "M.Tech": 7357,
+          "MBA": 7353,
+          "B.Sc": 7330,
+          "M.Sc": 4836,
+          "Diploma": 1897,
+          "Unknown": 1042,
+          "PhD": 467
+        },
+        "top_5": [
+          "B.Tech",
+          "M.Tech",
+          "MBA",
+          "B.Sc",
+          "M.Sc"
+        ],
+        "unique_count": 8
+      }
+    },
+    "data_quality": {
+      "total_records": 50000,
+      "missing_values": {
+        "experience": 0,
+        "education": 0,
+        "department": 0,
+        "gender": 0,
+        "role": 0,
+        "company": 0,
+        "salary": 0,
+        "sector": 0,
+        "age": 0
+      },
+      "duplicate_records": "0",
+      "salary_stats": {
+        "min_salary": 15000.0,
+        "max_salary": 404746.0,
+        "avg_salary": 105231.5006,
+        "median_salary": 100861.5
+      }
+    },
+    "feature_importance": {}
+  },
+  "dataset_size": 50000,
+  "training_records": 40000,
+  "test_records": 10000,
+  "model_parameters": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "criterion": "squared_error",
+    "max_depth": 25,
+    "max_features": "sqrt",
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 2,
+    "min_samples_split": 5,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": null,
+    "n_estimators": 200,
+    "n_jobs": -1,
+    "oob_score": false,
+    "random_state": 42,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "training_date": "2026-01-03T12:12:22.262669"
+}

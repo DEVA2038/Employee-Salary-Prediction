@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard - AI Salary Predictor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/company.css">
+    <link rel="stylesheet" href="/static/css/settings.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <h1><i class="fa-solid fa-chart-line"></i> AI Predictor</h1>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-tab="predict">
+                    <i class="fa-solid fa-calculator"></i>
+                    Predict Salary
+                </button>
+                <button class="nav-btn" data-tab="profile">
+                    <i class="fa-solid fa-building"></i>
+                    Company Profile
+                </button>
+                <button class="nav-btn" data-tab="analytics">
+                    <i class="fa-solid fa-chart-bar"></i>
+                    Analytics
+                </button>
+                <button class="nav-btn" data-tab="settings">
+                    <i class="fa-solid fa-gear"></i>
+                    Settings
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <span class="welcome-badge" id="welcome-message">Welcome, User</span>
+                    <button class="btn btn-outline btn-sm" onclick="logout()">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <div class="dashboard-content-wrapper">
+            
+            <header class="dashboard-header">
+                <div class="header-content">
+                    <h1><i class="fa-solid fa-building"></i> Company Dashboard</h1>
+                    <p class="subtitle">AI-Powered Salary Predictions</p>
+                </div>
+                
+                <div class="header-company-info">
+                    <span class="company-badge" id="header-company-name">Company: --</span>
+                </div>
+            </header>
+
+            <main class="dashboard-main">
+                <div id="predict-tab" class="tab-content active">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-bolt"></i> Salary Prediction</h2>
+                        </div>
+                        <div class="card-body">
+                            <p class="description">Use your company's custom AI model to predict salaries for new candidates or existing roles with high accuracy.</p>
+                            
+                            <div class="model-info-banner">
+                                <i class="fa-solid fa-microchip"></i>
+                                <div class="model-info-content">
+                                    <strong>Custom AI Model Active</strong>
+                                    <div class="model-info-stats">
+                                        <div class="model-stat">
+                                            <span>Accuracy:</span>
+                                            <span class="stat-value" id="model-accuracy">Loading...</span>
+                                        </div>
+                                        <div class="model-stat">
+                                            <span>Status:</span>
+                                            <span class="stat-value">Optimized</span>
+                                        </div>
+                                        <div class="model-stat">
+                                            <span>Training Data:</span>
+                                            <span class="stat-value" id="training-data">-- records</span>
+                                        </div>
+                                        <div class="model-stat">
+                                            <span>Last Training:</span>
+                                            <span class="stat-value" id="last-training-predict">--</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form id="predict-form" class="enhanced-form">
+                                <div class="form-grid">
+                                    <div class="input-group">
+                                        <label for="age">
+                                            <i class="fa-solid fa-user"></i>
+                                            Age
+                                        </label>
+                                        <input type="number" id="age" name="age" class="input" 
+                                               min="18" max="65" placeholder="Enter age (18-65)" required>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label for="experience">
+                                            <i class="fa-solid fa-briefcase"></i>
+                                            Experience (Years)
+                                        </label>
+                                        <input type="number" id="experience" name="experience" class="input" 
+                                               min="0" max="40" step="0.5" placeholder="Years of experience" required>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label for="gender">
+                                            <i class="fa-solid fa-venus-mars"></i>
+                                            Gender
+                                        </label>
+                                        <select id="gender" name="gender" class="input" required>
+                                            <option value="">Select Gender</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label for="role">
+                                            <i class="fa-solid fa-user-tie"></i>
+                                            Role
+                                        </label>
+                                        <select id="role" name="role" class="input" required>
+                                            <option value="">Select Role</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label for="sector">
+                                            <i class="fa-solid fa-industry"></i>
+                                            Sector
+                                        </label>
+                                        <select id="sector" name="sector" class="input" required>
+                                            <option value="">Select Sector</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label for="company">
+                                            <i class="fa-solid fa-building"></i>
+                                            Company Type
+                                        </label>
+                                        <select id="company" name="company" class="input" required>
+                                            <option value="">Select Type</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label for="department">
+                                            <i class="fa-solid fa-users"></i>
+                                            Department
+                                        </label>
+                                        <select id="department" name="department" class="input" required>
+                                            <option value="">Select Department</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="input-group">
+                                        <label for="education">
+                                            <i class="fa-solid fa-graduation-cap"></i>
+                                            Education
+                                        </label>
+                                        <select id="education" name="education" class="input" required>
+                                            <option value="">Select Education</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="button" id="predict-btn" class="btn btn-primary">
+                                        <i class="fa-solid fa-bolt"></i>
+                                        Predict Salary
+                                    </button>
+                                    <button type="button" id="reset-btn" class="btn btn-outline">
+                                        <i class="fa-solid fa-rotate"></i>
+                                        Reset Form
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="prediction-result" class="hidden">
+                        <div class="prediction-result">
+                            <div class="predicted-salary" id="salary-amount">₹ --</div>
+                            <div class="salary-period">Estimated Monthly Salary</div>
+                            
+                            <div class="prediction-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Company</span>
+                                    <span class="detail-value" id="result-company">--</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Model Accuracy</span>
+                                    <span class="detail-value" id="result-accuracy">--%</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Confidence</span>
+                                    <span class="detail-value">High</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button class="btn btn-outline" onclick="resetForm()">
+                                    <i class="fa-solid fa-calculator"></i>
+                                    New Prediction
+                                </button>
+                                <button class="btn" onclick="downloadResult()">
+                                    <i class="fa-solid fa-download"></i>
+                                    Download Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="profile-tab" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-building"></i> Company Profile</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="profile-grid">
+                                <div class="profile-card">
+                                    <h3><i class="fa-solid fa-info-circle"></i> Basic Information</h3>
+                                    <div id="profile-content">
+                                        <div class="loading-placeholder">
+                                            <div class="spinner"></div>
+                                            <p>Loading company profile...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="profile-card">
+                                    <h3><i class="fa-solid fa-chart-line"></i> Model Information</h3>
+                                    <div class="profile-item">
+                                        <span class="profile-label">Model Status</span>
+                                        <span class="profile-value">
+                                            <span class="status-badge status-approved">ACTIVE</span>
+                                        </span>
+                                    </div>
+                                    <div class="profile-item">
+                                        <span class="profile-label">Accuracy Score</span>
+                                        <span class="profile-value" id="profile-accuracy">--%</span>
+                                    </div>
+                                    <div class="profile-item">
+                                        <span class="profile-label">Last Training</span>
+                                        <span class="profile-value" id="last-training">--</span>
+                                    </div>
+                                    <div class="profile-item">
+                                        <span class="profile-label">Data Points</span>
+                                        <span class="profile-value" id="data-points">--</span>
+                                    </div>
+                                    <div class="profile-item">
+                                        <span class="profile-label">Predictions Made</span>
+                                        <span class="profile-value" id="predictions-count">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="analytics-tab" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-chart-bar"></i> Model Analytics</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="analytics-grid">
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fa-solid fa-crosshairs"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-number" id="accuracy-stat">--%</div>
+                                        <div class="stat-label">Model Accuracy</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fa-solid fa-database"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-number" id="analytics-data-points">--</div>
+                                        <div class="stat-label">Training Records</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fa-solid fa-calendar-check"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-number" id="approval-date">--</div>
+                                        <div class="stat-label">Days Active</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon">
+                                        <i class="fa-solid fa-chart-line"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-number" id="predictions-made">--</div>
+                                        <div class="stat-label">Predictions Made</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="model-details-section">
+                                <h3><i class="fa-solid fa-microchip"></i> Model Details</h3>
+                                <div class="model-details-grid">
+                                    <div class="model-detail-item">
+                                        <span class="model-detail-label">Model Type</span>
+                                        <span class="model-detail-value" id="model-type">Random Forest Regressor</span>
+                                    </div>
+                                    <div class="model-detail-item">
+                                        <span class="model-detail-label">Algorithm</span>
+                                        <span class="model-detail-value" id="model-algorithm">Ensemble Learning</span>
+                                    </div>
+                                    <div class="model-detail-item">
+                                        <span class="model-detail-label">Features Used</span>
+                                        <span class="model-detail-value" id="model-features">8</span>
+                                    </div>
+                                    <div class="model-detail-item">
+                                        <span class="model-detail-label">Training Method</span>
+                                        <span class="model-detail-value" id="training-method">Supervised Learning</span>
+                                    </div>
+                                    <div class="model-detail-item">
+                                        <span class="model-detail-label">Cross-Validation</span>
+                                        <span class="model-detail-value" id="cross-validation">5-fold</span>
+                                    </div>
+                                    <div class="model-detail-item">
+                                        <span class="model-detail-label">Hyperparameters</span>
+                                        <span class="model-detail-value" id="hyperparameters">Optimized</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="features-list">
+                                <h3><i class="fa-solid fa-star"></i> Model Features</h3>
+                                <div id="model-features-grid" class="feature-grid">
+                                    <div class="feature-item">
+                                        <i class="fa-solid fa-check"></i>
+                                        <span>Loading features...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="settings-tab" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-gear"></i> Settings</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="settings-grid-enhanced">
+                                <div class="settings-section-compact">
+                                    <h3><i class="fa-solid fa-palette"></i> Theme Settings</h3>
+                                    <div class="theme-options">
+                                        <div class="theme-option theme-default" data-theme="default">
+                                            <div class="theme-preview"></div>
+                                            <div class="theme-option-label">Default</div>
+                                        </div>
+                                        <div class="theme-option theme-dark" data-theme="dark">
+                                            <div class="theme-preview"></div>
+                                            <div class="theme-option-label">Dark</div>
+                                        </div>
+                                        <div class="theme-option theme-custom" data-theme="custom">
+                                            <div class="theme-preview"></div>
+                                            <div class="theme-option-label">Custom</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="color-picker-container" class="color-picker-container">
+                                        <div class="color-picker-group">
+                                            <label class="color-picker-label">Primary Color:</label>
+                                            <input type="color" id="custom-color-picker" value="#667eea">
+                                            <input type="text" id="custom-color-value" placeholder="#667eea">
+                                        </div>
+                                        
+                                        <div class="color-presets">
+                                            <div class="color-preset active" data-color="#667eea" style="background: #667eea;"></div>
+                                            <div class="color-preset" data-color="#10b981" style="background: #10b981;"></div>
+                                            <div class="color-preset" data-color="#f59e0b" style="background: #f59e0b;"></div>
+                                            <div class="color-preset" data-color="#ef4444" style="background: #ef4444;"></div>
+                                            <div class="color-preset" data-color="#8b5cf6" style="background: #8b5cf6;"></div>
+                                            <div class="color-preset" data-color="#06b6d4" style="background: #06b6d4;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section-compact">
+                                    <h3><i class="fa-solid fa-history"></i> Dataset History</h3>
+                                    <p class="description">View and manage your uploaded datasets</p>
+                                    
+                                    <div class="dataset-history-container">
+                                        <ul class="dataset-history-list" id="dataset-history-list">
+                                            <div class="loading-placeholder">
+                                                <div class="spinner"></div>
+                                                <p>Loading datasets...</p>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="dataset-stats mt-3">
+                                        <div class="progress-indicators">
+                                            <div class="progress-item">
+                                                <div class="progress-status"></div>
+                                                <div class="progress-text">Active Model</div>
+                                                <div class="progress-time" id="active-model-date">--</div>
+                                            </div>
+                                            <div class="progress-item">
+                                                <div class="progress-status pending"></div>
+                                                <div class="progress-text">Last Retraining</div>
+                                                <div class="progress-time" id="last-retrain-date">--</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section-compact">
+                                    <h3><i class="fa-solid fa-key"></i> Security</h3>
+                                    <div class="compact-form">
+                                        <div class="input-group">
+                                            <label for="current-password">Current Password</label>
+                                            <input type="password" id="current-password" class="input" placeholder="Enter current password">
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="new-password">New Password</label>
+                                            <input type="password" id="new-password" class="input" placeholder="Enter new password">
+                                        </div>
+                                        <div class="input-group">
+                                            <label for="confirm-password">Confirm Password</label>
+                                            <input type="password" id="confirm-password" class="input" placeholder="Confirm new password">
+                                        </div>
+                                        <button type="button" class="btn btn-primary" onclick="changePassword()">
+                                            <i class="fa-solid fa-save"></i> Update Password
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="settings-section-compact">
+                                    <h3><i class="fa-solid fa-robot"></i> Model Management</h3>
+                                    <p class="description">Retrain your AI model with new data</p>
+                                    
+                                    <div class="upload-area-compact" id="upload-area" onclick="document.getElementById('dataset-file').click()">
+                                        <i class="fa-solid fa-cloud-upload-alt"></i>
+                                        <p>Click to upload new dataset</p>
+                                        <input type="file" id="dataset-file" accept=".csv" hidden>
+                                    </div>
+                                    
+                                    <div class="file-requirements">
+                                        <p><strong>Requirements:</strong> CSV format with salary column</p>
+                                    </div>
+
+                                    <div id="upload-progress" class="upload-progress hidden">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="progress-fill"></div>
+                                        </div>
+                                        <div class="progress-text" id="progress-text">Processing...</div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-primary mt-3" id="retrain-btn">
+                                        <i class="fa-solid fa-robot"></i> Retrain Model
+                                    </button>
+                                </div>
+
+                                <div class="settings-section-compact danger-zone-compact">
+                                    <h3><i class="fa-solid fa-triangle-exclamation"></i> Account</h3>
+                                    <p class="warning-text-compact">
+                                        <i class="fa-solid fa-warning"></i>
+                                        Permanent actions cannot be undone
+                                    </p>
+                                    
+                                    <div class="danger-actions-compact">
+                                        <button type="button" class="btn btn-danger-compact" onclick="requestAccountDeletion()">
+                                            <i class="fa-solid fa-trash"></i> Delete Account
+                                        </button>
+                                        <p class="danger-note">
+                                            This will permanently delete your company account and all associated data.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="otp-modal" class="modal-overlay hidden" aria-hidden="true" role="dialog" aria-labelledby="otp-modal-title">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeOtpModal()" aria-label="Close">&times;</button>
+            <h2 id="otp-modal-title"><i class="fa-solid fa-key"></i> Verify OTP to Delete Account</h2>
+            <p class="text-muted">An OTP has been sent to your registered company email. Enter the 6-digit code below to confirm permanent deletion of your account and all associated data.</p>
+
+            <div class="input-group">
+                <label for="otp-input">Enter OTP</label>
+                <input id="otp-input" class="input" type="text" maxlength="6" placeholder="123456" inputmode="numeric" />
+            </div>
+
+            <div id="otp-status" class="hidden" aria-live="polite"></div>
+
+            <div class="otp-timer">
+                Time remaining: <span id="timer-countdown">05:00</span>
+            </div>
+
+            <div class="form-actions">
+                <button id="verify-otp-btn" class="btn btn-danger" onclick="verifyDeleteOtp()">
+                    <i class="fa-solid fa-trash"></i> Verify & Delete Account
+                </button>
+                <button id="resend-otp-btn" class="btn btn-outline" onclick="resendDeleteOtp()">
+                    <i class="fa-solid fa-envelope"></i> Resend OTP
+                </button>
+                <button class="btn btn-outline" onclick="closeOtpModal()">
+                    <i class="fa-solid fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/company_dashboard.js"></script>
+    <script src="/static/js/settings.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+{
+  "categorical": {
+    "gender": [
+      "Female",
+      "Male",
+      "Other"
+    ],
+    "role": [
+      "AI Engineer",
+      "Agile Coach",
+      "Automation Tester",
+      "BI Developer",
+      "Backend Developer",
+      "Blockchain Engineer",
+      "Brand Manager",
+      "Business Development Manager",
+      "Cloud Architect",
+      "Cloud Engineer",
+      "Compliance Officer",
+      "Customer Analyst",
+      "Customer Support",
+      "Data Manager",
+      "Data Scientist",
+      "Database Admin",
+      "Database Engineer",
+      "Embedded Systems Engineer",
+      "Finance Analyst",
+      "Finance Officer",
+      "Frontend Developer",
+      "Full Stack Engineer",
+      "Graphic Designer",
+      "HR Assistant",
+      "HR Recruiter",
+      "Hardware Engineer",
+      "IT Consultant",
+      "IT Manager",
+      "Industrial Engineer",
+      "Information Security Analyst",
+      "Legal Advisor",
+      "ML Engineer",
+      "ML Researcher",
+      "Marketing Manager",
+      "Mechanical Engineer",
+      "Operations Analyst",
+      "Operations Coordinator",
+      "Operations Executive",
+      "Procurement Officer",
+      "Product Designer",
+      "Production Engineer",
+      "Project Manager",
+      "QA Engineer",
+      "QA Tester",
+      "Quality Manager",
+      "Recruitment Specialist",
+      "Research Associate",
+      "Research Scientist",
+      "Robotics Engineer",
+      "Sales Executive",
+      "Scrum Master",
+      "Software Architect",
+      "Software Developer",
+      "Solution Architect",
+      "Statistician",
+      "Strategy Analyst",
+      "Support Engineer",
+      "System Engineer",
+      "Systems Analyst",
+      "Team Lead",
+      "Tech Support Engineer",
+      "Training Coordinator",
+      "UI Designer"
+    ],
+    "sector": [
+      "government",
+      "private",
+      "startup"
+    ],
+    "company": [
+      "govt_company",
+      "mnc",
+      "pvt_company",
+      "startup"
+    ],
+    "department": [
+      "Finance",
+      "HR",
+      "IT",
+      "Marketing",
+      "Operations",
+      "R&D",
+      "Sales",
+      "Support"
+    ],
+    "education": [
+      "B.Sc",
+      "B.Tech",
+      "Diploma",
+      "M.Sc",
+      "M.Tech",
+      "MBA",
+      "PhD",
+      "Unknown"
+    ]
+  },
+  "numeric_meta": {
+    "age": {
+      "min": 22,
+      "max": 60,
+      "step": 1,
+      "suggested_min": 29,
+      "suggested_max": 49,
+      "average": 39,
+      "median": 37
+    },
+    "experience": {
+      "min": 0,
+      "max": 39,
+      "step": 0.5,
+      "suggested_min": 7,
+      "suggested_max": 26,
+      "average": 17,
+      "median": 14
+    }
+  },
+  "validation_rules": {
+    "age": {
+      "min": 22,
+      "max": 60,
+      "required": true,
+      "type": "number"
+    },
+    "experience": {
+      "min": 0,
+      "max": 39,
+      "required": true,
+      "type": "number"
+    }
+  },
+  "field_config": {
+    "gender": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "Female",
+        "Other",
+        "Male"
+      ]
+    },
+    "role": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": true,
+      "top_suggestions": [
+        "Statistician",
+        "Tech Support Engineer",
+        "Industrial Engineer",
+        "Graphic Designer",
+        "Legal Advisor"
+      ]
+    },
+    "sector": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "private",
+        "government",
+        "startup"
+      ]
+    },
+    "company": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "startup",
+        "pvt_company",
+        "mnc",
+        "govt_company"
+      ]
+    },
+    "department": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "IT",
+        "Sales",
+        "HR",
+        "Operations",
+        "Marketing"
+      ]
+    },
+    "education": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "Unknown",
+        "Diploma",
+        "PhD",
+        "B.Tech",
+        "MBA"
+      ]
+    }
+  },
+  "field_groups": {
+    "personal": [
+      "age",
+      "gender",
+      "experience"
+    ],
+    "professional": [
+      "role",
+      "department",
+      "education"
+    ],
+    "organizational": [
+      "company",
+      "sector"
+    ]
+  },
+  "field_descriptions": {
+    "age": "Employee age in years (18-70)",
+    "experience": "Total years of professional experience",
+    "gender": "Gender identity",
+    "role": "Job title or position",
+    "department": "Organizational department",
+    "education": "Highest education level",
+    "company": "Company type or organization",
+    "sector": "Industry sector"
+  }
+}

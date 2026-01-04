@@ -1,0 +1,243 @@
+{
+  "company_name": "R M D engineering college, thiruvallur",
+  "model_accuracy": 0.3050019300387611,
+  "cv_accuracy": 0.2970447769540355,
+  "rmse": 602222.9387987144,
+  "mae": 509539.63250280824,
+  "mape": 41.68928384024993,
+  "features_used": {
+    "numeric": [
+      "age",
+      "experience",
+      "experience_squared",
+      "age_experience_ratio"
+    ],
+    "categorical": [
+      "gender",
+      "role",
+      "sector",
+      "company",
+      "department",
+      "education"
+    ]
+  },
+  "dataset_analysis": {
+    "numeric_ranges": {
+      "age": {
+        "min": 21.0,
+        "max": 59.0,
+        "mean": 40.1946,
+        "median": 40.0,
+        "std": 11.210025145946576,
+        "q25": 31.0,
+        "q75": 50.0
+      },
+      "experience": {
+        "min": 0.0,
+        "max": 31.0,
+        "mean": 14.8142,
+        "median": 15.0,
+        "std": 6.1106420570403115,
+        "q25": 10.0,
+        "q75": 19.0
+      },
+      "salary": {
+        "min": 289029.0,
+        "max": 3000000.0,
+        "mean": 1553266.3934,
+        "median": 1451186.5,
+        "std": 720239.8035034828,
+        "q25": 978702.5,
+        "q75": 2022391.5
+      }
+    },
+    "categorical_options": {
+      "gender": {
+        "options": [
+          "Female",
+          "Male",
+          "Other"
+        ],
+        "counts": {
+          "Male": 2504,
+          "Female": 2408,
+          "Other": 88
+        },
+        "top_5": [
+          "Male",
+          "Female",
+          "Other"
+        ],
+        "unique_count": 3
+      },
+      "role": {
+        "options": [
+          "Data Analyst",
+          "Data Scientist",
+          "DevOps Engineer",
+          "HR Executive",
+          "Product Manager",
+          "Project Manager",
+          "QA Engineer",
+          "Senior Developer",
+          "Software Engineer",
+          "System Administrator",
+          "Technical Lead",
+          "UI/UX Designer"
+        ],
+        "counts": {
+          "HR Executive": 444,
+          "Product Manager": 437,
+          "Senior Developer": 435,
+          "Data Analyst": 432,
+          "Software Engineer": 425,
+          "Project Manager": 419,
+          "Technical Lead": 417,
+          "System Administrator": 413,
+          "DevOps Engineer": 404,
+          "UI/UX Designer": 395,
+          "QA Engineer": 394,
+          "Data Scientist": 385
+        },
+        "top_5": [
+          "HR Executive",
+          "Product Manager",
+          "Senior Developer",
+          "Data Analyst",
+          "Software Engineer"
+        ],
+        "unique_count": 12
+      },
+      "sector": {
+        "options": [
+          "IT & Software"
+        ],
+        "counts": {
+          "IT & Software": 5000
+        },
+        "top_5": [
+          "IT & Software"
+        ],
+        "unique_count": 1
+      },
+      "company": {
+        "options": [
+          "TechNova Systems"
+        ],
+        "counts": {
+          "TechNova Systems": 5000
+        },
+        "top_5": [
+          "TechNova Systems"
+        ],
+        "unique_count": 1
+      },
+      "department": {
+        "options": [
+          "DevOps",
+          "Development",
+          "Finance",
+          "HR",
+          "Management",
+          "Sales",
+          "Support",
+          "Testing"
+        ],
+        "counts": {
+          "Support": 668,
+          "Finance": 656,
+          "Sales": 641,
+          "DevOps": 636,
+          "Management": 612,
+          "HR": 609,
+          "Testing": 606,
+          "Development": 572
+        },
+        "top_5": [
+          "Support",
+          "Finance",
+          "Sales",
+          "DevOps",
+          "Management"
+        ],
+        "unique_count": 8
+      },
+      "education": {
+        "options": [
+          "B.Sc",
+          "B.Tech",
+          "BCA",
+          "M.Tech",
+          "MBA",
+          "MCA",
+          "MSc",
+          "PhD"
+        ],
+        "counts": {
+          "MCA": 728,
+          "B.Tech": 642,
+          "B.Sc": 632,
+          "MBA": 621,
+          "BCA": 606,
+          "MSc": 605,
+          "PhD": 588,
+          "M.Tech": 578
+        },
+        "top_5": [
+          "MCA",
+          "B.Tech",
+          "B.Sc",
+          "MBA",
+          "BCA"
+        ],
+        "unique_count": 8
+      }
+    },
+    "data_quality": {
+      "total_records": 5000,
+      "missing_values": {
+        "age": 0,
+        "experience": 0,
+        "gender": 0,
+        "role": 0,
+        "sector": 0,
+        "company": 0,
+        "department": 0,
+        "education": 0,
+        "salary": 0
+      },
+      "duplicate_records": "0",
+      "salary_stats": {
+        "min_salary": 289029.0,
+        "max_salary": 3000000.0,
+        "avg_salary": 1553266.3934,
+        "median_salary": 1451186.5
+      }
+    },
+    "feature_importance": {}
+  },
+  "dataset_size": 5000,
+  "training_records": 4000,
+  "test_records": 1000,
+  "model_parameters": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "criterion": "squared_error",
+    "max_depth": 25,
+    "max_features": "sqrt",
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 2,
+    "min_samples_split": 5,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": null,
+    "n_estimators": 200,
+    "n_jobs": -1,
+    "oob_score": false,
+    "random_state": 42,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "training_date": "2025-11-14T09:31:16.499548"
+}

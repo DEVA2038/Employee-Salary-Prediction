@@ -1,0 +1,65 @@
+{
+  "numeric_cols": [
+    "age",
+    "experience"
+  ],
+  "categorical_cols": [
+    "gender",
+    "role",
+    "sector",
+    "company",
+    "department",
+    "education"
+  ],
+  "model_name": "Ensemble",
+  "cv_score": 0.5666365573411487,
+  "model_comparison": {
+    "RandomForest": {
+      "r2": 0.5439942450672481,
+      "rmse": 27289.5037942938,
+      "mae": 18137.509654315825,
+      "mape": 24.128479167517085
+    },
+    "GradientBoosting": {
+      "r2": 0.5639956534318866,
+      "rmse": 26684.304421070523,
+      "mae": 17497.767640753213,
+      "mape": 23.13255576259822
+    },
+    "XGBoost": {
+      "r2": 0.5610823631286621,
+      "rmse": 26773.303718443116,
+      "mae": 17533.857421875,
+      "mape": 23.186260736939616
+    },
+    "LightGBM": {
+      "r2": 0.5628718261849134,
+      "rmse": 26718.672483174585,
+      "mae": 17531.34465611242,
+      "mape": 23.188064603813142
+    },
+    "Ensemble": {
+      "r2": 0.5646832503045388,
+      "rmse": 26663.254993434042,
+      "mae": 17474.077623493013,
+      "mape": 0.0
+    }
+  },
+  "all_models": [
+    "RandomForest",
+    "GradientBoosting",
+    "XGBoost",
+    "LightGBM",
+    "Ensemble"
+  ],
+  "required_columns": [
+    "age",
+    "experience",
+    "gender",
+    "role",
+    "sector",
+    "company",
+    "department",
+    "education"
+  ]
+}

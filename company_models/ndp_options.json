@@ -1,0 +1,192 @@
+{
+  "categorical": {
+    "gender": [
+      "Female",
+      "Male",
+      "Other"
+    ],
+    "role": [
+      "Business Analyst",
+      "Data Analyst",
+      "Database Admin",
+      "DevOps Engineer",
+      "HR Manager",
+      "ML Engineer",
+      "Network Engineer",
+      "Product Manager",
+      "Project Manager",
+      "QA Tester",
+      "Software Developer",
+      "System Engineer",
+      "UI/UX Designer"
+    ],
+    "sector": [
+      "government",
+      "private",
+      "startup"
+    ],
+    "company": [
+      "consultancy",
+      "govt_company",
+      "mnc",
+      "pvt_company",
+      "startup"
+    ],
+    "department": [
+      "Finance",
+      "HR",
+      "IT",
+      "Marketing",
+      "Operations",
+      "R&D",
+      "Sales",
+      "Support"
+    ],
+    "education": [
+      "B.Sc",
+      "B.Tech",
+      "Diploma",
+      "M.Sc",
+      "M.Tech",
+      "MBA",
+      "PhD",
+      "Unknown"
+    ]
+  },
+  "numeric_meta": {
+    "age": {
+      "min": 21,
+      "max": 59,
+      "step": 1,
+      "suggested_min": 30,
+      "suggested_max": 50,
+      "average": 40,
+      "median": 40
+    },
+    "experience": {
+      "min": 0,
+      "max": 39,
+      "step": 0.5,
+      "suggested_min": 6,
+      "suggested_max": 26,
+      "average": 16,
+      "median": 16
+    }
+  },
+  "validation_rules": {
+    "age": {
+      "min": 21,
+      "max": 59,
+      "required": true,
+      "type": "number"
+    },
+    "experience": {
+      "min": 0,
+      "max": 39,
+      "required": true,
+      "type": "number"
+    }
+  },
+  "field_config": {
+    "gender": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "Female",
+        "Male",
+        "Other"
+      ]
+    },
+    "role": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": true,
+      "top_suggestions": [
+        "System Engineer",
+        "Project Manager",
+        "Software Developer",
+        "Data Analyst",
+        "ML Engineer"
+      ]
+    },
+    "sector": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "private",
+        "startup",
+        "government"
+      ]
+    },
+    "company": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "pvt_company",
+        "mnc",
+        "startup",
+        "govt_company",
+        "consultancy"
+      ]
+    },
+    "department": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "Marketing",
+        "Operations",
+        "R&D",
+        "Support",
+        "Sales"
+      ]
+    },
+    "education": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "B.Tech",
+        "M.Tech",
+        "MBA",
+        "B.Sc",
+        "M.Sc"
+      ]
+    }
+  },
+  "field_groups": {
+    "personal": [
+      "age",
+      "gender",
+      "experience"
+    ],
+    "professional": [
+      "role",
+      "department",
+      "education"
+    ],
+    "organizational": [
+      "company",
+      "sector"
+    ]
+  },
+  "field_descriptions": {
+    "age": "Employee age in years (18-70)",
+    "experience": "Total years of professional experience",
+    "gender": "Gender identity",
+    "role": "Job title or position",
+    "department": "Organizational department",
+    "education": "Highest education level",
+    "company": "Company type or organization",
+    "sector": "Industry sector"
+  }
+}

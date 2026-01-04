@@ -1,0 +1,101 @@
+employee_id,name,age,experience,role,company,sector,education,location,department,gender,salary
+1,Ananya Reddy,41,21,Robotics Engineer,pvt_company,private,Diploma,Hyderabad,Operations,Male,160954
+2,Lavanya Chauhan,39,17,Industrial Engineer,startup,government,M.Sc,Gurgaon,Support,Female,191338
+3,Deepak Kulkarni,45,24,Graphic Designer,pvt_company,startup,M.Sc,Kolkata,Support,Other,105914
+4,Rahul Malhotra,34,11,Product Designer,mnc,government,B.Sc,Ahmedabad,R&D,Female,146463
+5,Anil Kumar,40,16,Statistician,pvt_company,government,M.Tech,Gurgaon,Marketing,Male,71430
+6,Vikram Reddy,37,12,Finance Officer,govt_company,government,M.Sc,Bangalore,Support,Male,91482
+7,Ravi Yadav,42,20,Team Lead,startup,startup,MBA,Delhi,IT,Other,183736
+8,Lavanya Malhotra,31,7,BI Developer,mnc,private,MBA,Kolkata,Marketing,Other,88113
+9,Anil Yadav,54,31,Database Admin,govt_company,government,Diploma,Ahmedabad,Sales,Male,170481
+10,Harish Patel,51,31,Graphic Designer,mnc,private,B.Tech,Ahmedabad,Sales,Male,96341
+11,Priya Khan,44,23,Systems Analyst,mnc,government,M.Sc,Pune,Marketing,Other,126600
+12,Vikram Sharma,45,25,Project Manager,mnc,startup,PhD,Hyderabad,Operations,Female,188722
+13,Amit Nair,58,36,Scrum Master,startup,government,Diploma,Bangalore,IT,Other,73342
+14,Ajay Das,54,33,Automation Tester,startup,startup,MBA,Delhi,Support,Other,53443
+15,Ajay Singh,27,7,HR Assistant,startup,startup,M.Tech,Kolkata,R&D,Other,86878
+16,Ajay Patel,28,8,Procurement Officer,startup,startup,Unknown,Hyderabad,Support,Female,78781
+17,Ravi Kumar,37,13,Systems Analyst,govt_company,private,Unknown,Ahmedabad,Marketing,Male,63445
+18,Amit Verma,39,16,QA Tester,pvt_company,government,Unknown,Hyderabad,R&D,Other,113956
+19,Kiran Das,45,23,Business Development Manager,pvt_company,government,Unknown,Mumbai,Support,Female,66628
+20,Anil Kapoor,29,7,Operations Executive,govt_company,private,Unknown,Noida,Support,Female,71354
+21,Anil Joshi,30,7,QA Engineer,startup,startup,PhD,Hyderabad,Operations,Other,78878
+22,Rashmi Rao,26,5,Research Scientist,mnc,government,Unknown,Kolkata,Support,Female,59751
+23,Abhishek Kapoor,45,25,Quality Manager,govt_company,private,PhD,Pune,Support,Other,194230
+24,Harish Sharma,44,20,Legal Advisor,pvt_company,private,M.Sc,Chennai,IT,Female,132962
+25,Rahul Joshi,60,39,QA Tester,govt_company,government,Diploma,Chennai,Operations,Female,190697
+26,Kiran Joshi,53,28,Brand Manager,govt_company,government,Diploma,Chennai,IT,Male,169815
+27,Anil Malhotra,51,26,Backend Developer,pvt_company,startup,MBA,Kolkata,IT,Female,193078
+28,Vikram Malhotra,30,6,Embedded Systems Engineer,startup,government,B.Tech,Bangalore,Sales,Other,176628
+29,Priya Verma,26,5,Graphic Designer,startup,startup,B.Sc,Gurgaon,Finance,Female,124559
+30,Divya Reddy,49,26,Team Lead,mnc,startup,Diploma,Ahmedabad,Sales,Male,164180
+31,Amit Joshi,60,39,AI Engineer,govt_company,government,M.Sc,Chennai,Sales,Male,110014
+32,Ravi Sharma,24,1,System Engineer,startup,startup,B.Tech,Chennai,R&D,Female,192994
+33,Ananya Sharma,47,22,Blockchain Engineer,startup,private,M.Tech,Ahmedabad,Marketing,Male,101889
+34,Soumya Rao,56,36,Marketing Manager,govt_company,private,Diploma,Bangalore,HR,Female,81267
+35,Suresh Nair,27,2,Frontend Developer,startup,startup,B.Sc,Kolkata,HR,Female,125454
+36,Priya Singh,30,5,Mechanical Engineer,pvt_company,government,Diploma,Gurgaon,Marketing,Other,94303
+37,Soumya Joshi,22,0,Frontend Developer,mnc,private,PhD,Hyderabad,Sales,Female,153318
+38,Ananya Malhotra,27,4,Quality Manager,startup,private,M.Tech,Mumbai,R&D,Male,101971
+39,Komal Kulkarni,38,14,IT Consultant,govt_company,government,Unknown,Pune,Sales,Male,148119
+40,Harish Verma,36,12,Research Associate,govt_company,startup,B.Tech,Ahmedabad,Finance,Other,116871
+41,Kiran Patel,58,35,Information Security Analyst,govt_company,government,PhD,Chennai,IT,Female,106028
+42,Priya Kumar,38,13,Software Developer,pvt_company,government,PhD,Noida,Sales,Female,169299
+43,Anil Khan,23,3,Sales Executive,mnc,private,Diploma,Gurgaon,IT,Other,196890
+44,Ajay Kumar,27,6,Support Engineer,govt_company,private,B.Tech,Kolkata,HR,Male,196024
+45,Rashmi Singh,34,12,Customer Support,startup,government,B.Sc,Hyderabad,Finance,Male,188719
+46,Rashmi Singh,35,14,Robotics Engineer,mnc,private,B.Sc,Bangalore,HR,Female,108246
+47,Divya Patel,33,9,HR Assistant,pvt_company,startup,M.Tech,Noida,Sales,Female,106761
+48,Komal Patel,22,2,Legal Advisor,startup,private,Unknown,Pune,HR,Other,89693
+49,Ajay Kulkarni,27,7,Full Stack Engineer,mnc,private,B.Sc,Ahmedabad,Marketing,Other,194588
+50,Kiran Patel,47,22,AI Engineer,startup,private,MBA,Gurgaon,Operations,Female,72558
+51,Divya Chauhan,29,9,ML Researcher,mnc,private,B.Tech,Pune,IT,Female,72900
+52,Kiran Yadav,53,33,Database Engineer,startup,private,M.Sc,Noida,IT,Male,83253
+53,Soumya Das,55,33,Cloud Architect,mnc,private,Unknown,Hyderabad,HR,Male,199673
+54,Suresh Kapoor,57,33,Production Engineer,pvt_company,government,Unknown,Bangalore,Marketing,Other,95225
+55,Rahul Verma,31,7,Industrial Engineer,pvt_company,private,MBA,Delhi,HR,Female,72563
+56,Harish Verma,50,25,Finance Analyst,startup,private,PhD,Bangalore,Sales,Female,99351
+57,Lavanya Sharma,38,18,Solution Architect,startup,government,Unknown,Ahmedabad,Finance,Female,190984
+58,Komal Singh,48,26,Legal Advisor,startup,private,MBA,Bangalore,Marketing,Other,159594
+59,Suresh Kulkarni,27,5,Industrial Engineer,startup,startup,MBA,Hyderabad,IT,Female,132853
+60,Anil Chauhan,57,32,HR Recruiter,govt_company,startup,M.Sc,Bangalore,Operations,Male,74069
+61,Ravi Malhotra,33,8,Operations Analyst,pvt_company,government,Unknown,Ahmedabad,Support,Other,117223
+62,Priya Nair,22,0,Hardware Engineer,mnc,private,B.Tech,Chennai,HR,Other,92367
+63,Divya Khan,50,27,Business Development Manager,govt_company,startup,Diploma,Delhi,HR,Male,147605
+64,Rashmi Singh,37,17,Data Scientist,startup,government,PhD,Noida,IT,Female,81054
+65,Rahul Malhotra,56,36,Brand Manager,startup,government,Diploma,Chennai,Operations,Female,69296
+66,Ananya Sharma,46,22,Statistician,pvt_company,government,Diploma,Gurgaon,Operations,Other,166345
+67,Swathi Verma,59,38,Tech Support Engineer,govt_company,private,PhD,Bangalore,IT,Female,155591
+68,Harish Das,49,29,Tech Support Engineer,startup,startup,PhD,Ahmedabad,Sales,Male,189627
+69,Kiran Chauhan,42,19,Tech Support Engineer,mnc,startup,MBA,Chennai,Finance,Male,129980
+70,Kiran Malhotra,27,6,Agile Coach,pvt_company,government,Unknown,Noida,Sales,Other,109210
+71,Ajay Reddy,34,13,AI Engineer,pvt_company,startup,M.Tech,Chennai,Finance,Female,180755
+72,Lavanya Joshi,35,10,Data Manager,startup,startup,B.Tech,Hyderabad,Marketing,Other,60286
+73,Sita Chauhan,22,2,Business Development Manager,startup,private,Unknown,Pune,Finance,Male,57387
+74,Ananya Das,29,5,Cloud Engineer,mnc,startup,M.Tech,Hyderabad,HR,Other,130022
+75,Priya Nair,47,25,Solution Architect,startup,startup,PhD,Bangalore,IT,Other,153080
+76,Ananya Joshi,52,30,Software Architect,mnc,private,B.Tech,Chennai,Operations,Other,128059
+77,Ajay Patel,22,1,QA Engineer,pvt_company,private,Diploma,Noida,Finance,Other,59052
+78,Lavanya Nair,59,39,Frontend Developer,mnc,private,M.Sc,Pune,HR,Female,61963
+79,Vikram Yadav,24,0,Finance Officer,pvt_company,private,B.Tech,Chennai,IT,Male,196681
+80,Komal Chauhan,23,2,Robotics Engineer,govt_company,private,M.Tech,Gurgaon,HR,Other,74117
+81,Sita Kumar,30,10,ML Engineer,pvt_company,private,PhD,Hyderabad,Sales,Other,102344
+82,Harish Joshi,45,23,UI Designer,govt_company,government,M.Tech,Mumbai,R&D,Male,192933
+83,Swathi Rao,34,11,Statistician,pvt_company,startup,MBA,Ahmedabad,Support,Female,61105
+84,Ananya Kapoor,31,10,Compliance Officer,mnc,startup,Unknown,Noida,Support,Other,62922
+85,Rashmi Kulkarni,53,30,Finance Analyst,pvt_company,startup,Unknown,Mumbai,Finance,Male,93921
+86,Ravi Khan,26,1,Operations Coordinator,startup,private,Diploma,Gurgaon,IT,Other,153703
+87,Amit Kumar,57,33,Recruitment Specialist,govt_company,private,PhD,Gurgaon,IT,Female,175831
+88,Rashmi Rao,54,32,Marketing Manager,mnc,government,Unknown,Mumbai,Operations,Male,93229
+89,Soumya Kapoor,26,4,Customer Analyst,govt_company,government,Diploma,Mumbai,HR,Male,182349
+90,Rashmi Chauhan,35,11,QA Tester,pvt_company,government,B.Tech,Hyderabad,Marketing,Other,97059
+91,Ajay Kulkarni,38,18,Strategy Analyst,pvt_company,startup,B.Sc,Noida,Operations,Female,61160
+92,Abhishek Joshi,49,27,System Engineer,pvt_company,government,PhD,Bangalore,R&D,Female,135521
+93,Ananya Joshi,35,11,Statistician,mnc,government,PhD,Bangalore,Sales,Other,53517
+94,Kiran Kumar,30,10,Data Scientist,mnc,startup,M.Tech,Hyderabad,Marketing,Male,50913
+95,Suresh Rao,25,5,Training Coordinator,startup,private,MBA,Noida,Sales,Female,171007
+96,Komal Das,36,13,Data Scientist,govt_company,private,B.Sc,Noida,HR,Female,73844
+97,Sita Reddy,34,11,Marketing Manager,startup,government,Unknown,Ahmedabad,Marketing,Female,108767
+98,Sita Nair,34,9,Tech Support Engineer,pvt_company,government,Unknown,Kolkata,Operations,Female,54523
+99,Ajay Das,55,33,Scrum Master,govt_company,private,B.Sc,Noida,HR,Other,133260
+100,Priya Joshi,58,38,IT Manager,startup,startup,M.Sc,Delhi,Operations,Female,144300

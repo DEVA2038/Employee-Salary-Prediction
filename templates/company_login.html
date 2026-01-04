@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Login - AI Salary Predictor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/company.css">
+</head>
+<body>
+    <div class="header-icon-btn top-right">
+        <a href="/" class="icon-btn" data-tooltip="Back to Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+    </div>
+
+    <div class="header-icon-btn top-left">
+        <button class="icon-btn" id="theme-toggle" data-tooltip="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+    </div>
+
+    <div class="company-container login-container">
+        <header class="company-header">
+            <h1><i class="fa-solid fa-building"></i> Company Login</h1>
+            <p class="subtitle">Access your company dashboard with custom AI salary predictions</p>
+        </header>
+
+        <div class="company-card login-card">
+            <h2><i class="fa-solid fa-arrow-right-to-bracket"></i> Login to Your Account</h2>
+            <p class="description" style="margin-bottom: 2rem;">Enter your company credentials to access your dashboard</p>
+            
+            <form id="login-form" class="company-form">
+                <div class="form-grid" style="margin-bottom: 0;">
+                    <div class="input-group">
+                        <label for="username">
+                            <i class="fa-solid fa-user"></i> Username *
+                        </label>
+                        <input type="text" id="username" name="username" class="input" 
+                               placeholder="Enter your username" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="password">
+                            <i class="fa-solid fa-lock"></i> Password *
+                        </label>
+                        <input type="password" id="password" name="password" class="input" 
+                               placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <div id="login-result" class="hidden" style="margin-top: 1.5rem;"></div>
+
+                <div class="form-actions" style="margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary" id="login-btn">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Login to Dashboard
+                    </button>
+                </div>
+            </form>
+
+            <div class="login-forgot-password">
+                <button type="button" class="btn-link" id="forgot-password-btn">
+                    Forgot your credentials? Contact system administrator.
+                </button>
+            </div>
+
+        </div>
+
+        <div class="login-options">
+            <p>Don't have an account?</p>
+            <a href="/company-request" class="btn btn-outline" style="background-color: var(--bg-card);">
+                <i class="fa-solid fa-building"></i> Register Your Company
+            </a>
+        </div>
+    </div>
+
+    <div id="forgot-password-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close-btn">&times;</button>
+            
+            <div id="send-otp-step">
+                <h2><i class="fa-solid fa-key"></i> Forgot Password</h2>
+                <p>Enter your username or email. We will send an OTP to your registered mobile number.</p>
+                <form id="send-otp-form" class="modal-form">
+                    <div class="input-group">
+                        <label for="username_or_email">Username or Email *</label>
+                        <input type="text" id="username_or_email" name="username_or_email" class="input" required>
+                    </div>
+                    <div id="otp-send-result" class="hidden"></div>
+                    <button type="submit" class="btn btn-primary" id="send-otp-btn">
+                        <i class="fa-solid fa-mobile-alt"></i> Send OTP
+                    </button>
+                </form>
+            </div>
+
+            <div id="verify-otp-step" class="hidden">
+                <h2><i class="fa-solid fa-shield-alt"></i> Verify OTP</h2>
+                <p>An OTP was sent to your mobile (check console for demo). Enter it below.</p>
+                <form id="verify-otp-form" class="modal-form">
+                    <div class="input-group">
+                        <label for="otp_code">6-Digit OTP *</label>
+                        <input type="text" id="otp_code" name="otp_code" class="input" 
+                               maxlength="6" pattern="\d{6}" required>
+                    </div>
+                    <div id="otp-verify-result" class="hidden"></div>
+                    <button type="submit" class="btn btn-primary" id="verify-otp-btn">
+                        <i class="fa-solid fa-check-circle"></i> Verify & Recover
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/static/js/company.js"></script>
+</body>
+</html>

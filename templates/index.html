@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Salary Predictor | Advanced Machine Learning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+    
+    <header>
+        <div class="header-inner">
+            <div class="header-content">
+                <h1><i class="fa-solid fa-brain"></i> AI Salary Predictor</h1>
+                <p class="subtitle">Leverage ensemble models for highly accurate salary predictions.</p>
+            </div>
+            
+            <div class="header-actions">
+                <a href="/company-request" class="icon-btn" data-tooltip="Register Company">
+                    <i class="fa-solid fa-rocket"></i>
+                </a>
+                <a href="/company-login" class="icon-btn" data-tooltip="Company Login">
+                    <i class="fa-solid fa-sign-in-alt"></i>
+                </a>
+
+                <div class="theme-switcher">
+                    <button class="theme-toggle-btn" id="theme-toggle" data-tooltip="Toggle Theme">
+                        <i class="fa-solid fa-sun"></i>
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <nav class="sidebar">
+            <ul class="sidebar-nav">
+                <li>
+                    <button class="sidebar-link active" data-tab="predict">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                        <span>Predict Salary</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="sidebar-link" data-tab="comparison">
+                        <i class="fa-solid fa-chart-bar"></i>
+                        <span>Model Comparison</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="sidebar-link" data-tab="about">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>How It Works</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <div id="predict-tab" class="tab-content active">
+                <div class="card">
+                    <h2><i class="fa-solid fa-user-tie"></i> Enter Your Professional Profile</h2>
+                    <p class="description">Fill in your details below. Our AI will analyze your profile to provide a robust salary estimate.</p>
+                    <form id="predict-form">
+                        <div id="inputs" class="form-grid">
+                            <div class="loading-placeholder">
+                                <div class="spinner"></div>
+                                <p>Loading model options...</p>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" id="predict-btn" class="btn" disabled>
+                                <i class="fa-solid fa-bolt"></i> Predict My Salary
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div id="result" class="hidden"></div>
+            </div>
+
+            <div id="comparison-tab" class="tab-content">
+                <div class="loading-placeholder">
+                    <div class="spinner"></div>
+                    <p>Loading model comparison data...</p>
+                </div>
+            </div>
+
+            <div id="about-tab" class="tab-content">
+                <div class="card">
+                    <h2><i class="fa-solid fa-microchip"></i> How Our AI Predictor Works</h2>
+                    <div class="about-grid">
+                        <div class="about-card">
+                            <div class="icon-bg"><i class="fa-solid fa-layer-group"></i></div>
+                            <h3>Multiple Algorithms</h3>
+                            <p>We train top-tier models like Random Forest, Gradient Boosting, XGBoost, and LightGBM to find the most accurate predictor.</p>
+                        </div>
+                         <div class="about-card">
+                            <div class="icon-bg"><i class="fa-solid fa-crosshairs"></i></div>
+                            <h3>Hyperparameter Tuning</h3>
+                            <p>The best algorithm undergoes automated tuning (using RandomizedSearchCV) to find its optimal settings, maximizing predictive accuracy.</p>
+                        </div>
+                        <div class="about-card">
+                            <div class="icon-bg"><i class="fa-solid fa-trophy"></i></div>
+                            <h3>Best Model Selection</h3>
+                            <p>The tuned model with the highest R² score after cross-validation is automatically selected to give you the most reliable prediction.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><i class="fa-solid fa-building"></i> For Companies & Organizations</h2>
+                    <div class="about-grid">
+                        <div class="about-card">
+                            <div class="icon-bg"><i class="fa-solid fa-database"></i></div>
+                            <h3>Custom Dataset Training</h3>
+                            <p>Upload your company's salary data to train a customized model that understands your specific compensation structure.</p>
+                        </div>
+                        <div class="about-card">
+                            <div class="icon-bg"><i class="fa-solid fa-chart-line"></i></div>
+                            <h3>Company-Specific Insights</h3>
+                            <p>Get predictions tailored to your organization's roles, locations, and experience levels for better hiring decisions.</p>
+                        </div>
+                        <div class="about-card">
+                            <div class="icon-bg"><i class="fa-solid fa-shield-alt"></i></div>
+                            <h3>Secure & Private</h3>
+                            <p>Your data remains confidential. Each company gets a separate, secure model trained exclusively on their data.</p>
+                        </div>
+                    </div>
+                    <div class="actions" style="margin-top: 2rem;">
+                        <a href="/company-request" class="btn btn-primary">
+                            <i class="fa-solid fa-rocket"></i> Get Started for Your Company
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <small>Powered by Flask, Scikit-learn, XGBoost & LightGBM | 
+                    <a href="/company-request" style="color: inherit;">Company Access</a> | 
+                    <a href="/admin-login" style="color: inherit;">Admin</a>
+                </small>
+            </footer>
+        </main>
+    </div>
+    
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+{
+  "categorical": {
+    "gender": [
+      "Female",
+      "Male"
+    ],
+    "role": [
+      "Business Analyst",
+      "Data Scientist",
+      "HR Manager",
+      "Industrial Engineer",
+      "Operations Manager",
+      "Product Manager",
+      "Robotics Engineer",
+      "Software Engineer"
+    ],
+    "sector": [
+      "government",
+      "private"
+    ],
+    "company": [
+      "govt_org",
+      "mnc",
+      "pvt_company",
+      "startup"
+    ],
+    "department": [
+      "Engineering",
+      "Finance",
+      "HR",
+      "Operations",
+      "R&D",
+      "Support"
+    ],
+    "education": [
+      "B.Tech",
+      "Diploma",
+      "M.Sc",
+      "M.Tech",
+      "MBA",
+      "PhD"
+    ]
+  },
+  "numeric_meta": {
+    "age": {
+      "min": 22,
+      "max": 59,
+      "step": 1,
+      "suggested_min": 31,
+      "suggested_max": 50,
+      "average": 40,
+      "median": 41
+    },
+    "experience": {
+      "min": 0,
+      "max": 37,
+      "step": 0.5,
+      "suggested_min": 7,
+      "suggested_max": 26,
+      "average": 16,
+      "median": 17
+    }
+  },
+  "validation_rules": {
+    "age": {
+      "min": 22,
+      "max": 59,
+      "required": true,
+      "type": "number"
+    },
+    "experience": {
+      "min": 0,
+      "max": 37,
+      "required": true,
+      "type": "number"
+    }
+  },
+  "field_config": {
+    "gender": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "Male",
+        "Female"
+      ]
+    },
+    "role": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "Data Scientist",
+        "Product Manager",
+        "Robotics Engineer",
+        "Software Engineer",
+        "Operations Manager"
+      ]
+    },
+    "sector": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "private",
+        "government"
+      ]
+    },
+    "company": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "govt_org",
+        "mnc",
+        "startup",
+        "pvt_company"
+      ]
+    },
+    "department": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "Finance",
+        "R&D",
+        "Support",
+        "HR",
+        "Engineering"
+      ]
+    },
+    "education": {
+      "type": "select",
+      "required": true,
+      "multiple": false,
+      "searchable": false,
+      "top_suggestions": [
+        "Diploma",
+        "M.Sc",
+        "M.Tech",
+        "PhD",
+        "MBA"
+      ]
+    }
+  },
+  "field_groups": {
+    "personal": [
+      "age",
+      "gender",
+      "experience"
+    ],
+    "professional": [
+      "role",
+      "department",
+      "education"
+    ],
+    "organizational": [
+      "company",
+      "sector"
+    ]
+  },
+  "field_descriptions": {
+    "age": "Employee age in years (18-70)",
+    "experience": "Total years of professional experience",
+    "gender": "Gender identity",
+    "role": "Job title or position",
+    "department": "Organizational department",
+    "education": "Highest education level",
+    "company": "Company type or organization",
+    "sector": "Industry sector"
+  }
+}

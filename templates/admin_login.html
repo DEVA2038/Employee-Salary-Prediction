@@ -1,0 +1,564 @@
+<!-- templates/admin_login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - AI Salary Predictor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <style>
+        :root {
+            --primary-blue: #4361ee;
+            --primary-dark: #3a0ca3;
+            --secondary-blue: #3a56d4;
+            --danger-red: #e63946;
+            --success-green: #2a9d8f;
+            --light-gray: #f8f9fa;
+            --dark-gray: #1f2937;
+            --text-light: #f3f4f6;
+            --text-dark: #1c1c1e;
+            --border-color: #d1d5db;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-blue));
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        /* ===== LOGIN CARD ===== */
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* ===== HEADER SECTION ===== */
+        .login-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+            padding: 2.5rem 2rem 2rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .login-icon {
+            width: 5rem;
+            height: 5rem;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            font-size: 2rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .login-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .login-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        .system-url {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            margin-top: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* ===== FORM SECTION ===== */
+        .login-form {
+            padding: 2.5rem 2rem;
+        }
+        
+        .form-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1.75rem;
+            text-align: center;
+        }
+        
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .input-container {
+            position: relative;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            padding-left: 3rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            background: var(--light-gray);
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+        
+        /* Password Toggle */
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 0.25rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .password-toggle:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--primary-blue);
+        }
+        
+        /* ===== SIGN IN BUTTON ===== */
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .login-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* ===== BACK BUTTON ===== */
+        .back-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #6c757d;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.875rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+        
+        .back-link:hover {
+            background: var(--light-gray);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-1px);
+        }
+        
+        /* ===== MESSAGES ===== */
+        .error-message {
+            background: linear-gradient(135deg, #ffeaea, #ffd1d1);
+            color: var(--danger-red);
+            padding: 1rem 1.25rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.25rem;
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            border-left: 4px solid var(--danger-red);
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, #e8fff3, #d1ffeb);
+            color: var(--success-green);
+            padding: 1rem 1.25rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.25rem;
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            border-left: 4px solid var(--success-green);
+        }
+        
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ===== DARK MODE ===== */
+        @media (prefers-color-scheme: dark) {
+            .login-card {
+                background: rgba(31, 41, 55, 0.95);
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+            
+            .login-header h1,
+            .form-title,
+            .form-group label {
+                color: var(--text-light);
+            }
+            
+            .form-control {
+                background: #374151;
+                border-color: #4b5563;
+                color: var(--text-light);
+            }
+            
+            .form-control:focus {
+                background: #1f2937;
+            }
+            
+            .form-control::placeholder {
+                color: #9ca3af;
+            }
+            
+            .back-link {
+                border-color: #4b5563;
+                color: #9ca3af;
+            }
+            
+            .back-link:hover {
+                background: #374151;
+                color: var(--primary-blue);
+            }
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .login-container {
+                max-width: 100%;
+            }
+            
+            .login-card {
+                border-radius: 1.25rem;
+            }
+            
+            .login-header {
+                padding: 2rem 1.5rem 1.5rem;
+            }
+            
+            .login-form {
+                padding: 2rem 1.5rem;
+            }
+            
+            .login-header h1 {
+                font-size: 1.75rem;
+            }
+        }
+        
+        /* ===== INPUT VALIDATION STATES ===== */
+        .form-control.valid {
+            border-color: var(--success-green);
+        }
+        
+        .form-control.invalid {
+            border-color: var(--danger-red);
+        }
+        
+        /* ===== LOADING ANIMATION ===== */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Header -->
+            <div class="login-header">
+                <div class="login-icon">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h1>Admin Login</h1>
+                <p>Secure Access to AI Salary Predictor</p>
+            </div>
+            
+            <!-- Error Message -->
+            <div id="error-message" class="error-message">
+                <i class="fa-solid fa-exclamation-circle"></i>
+                <span id="error-text"></span>
+            </div>
+            
+            <!-- Success Message -->
+            <div id="success-message" class="success-message">
+                <i class="fa-solid fa-check-circle"></i>
+                <span id="success-text"></span>
+            </div>
+            
+            <!-- Login Form -->
+            <div class="login-form">
+                <form id="admin-login-form">
+                    <!-- Username -->
+                    <div class="form-group">
+                        <label for="username">Admin Username</label>
+                        <div class="input-container">
+                            <span class="input-icon">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                class="form-control" 
+                                placeholder="Enter admin username"
+                                required
+                                autocomplete="username"
+                            >
+                        </div>
+                    </div>
+                    
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-container">
+                            <span class="input-icon">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                class="form-control" 
+                                placeholder="Enter your password"
+                                required
+                                autocomplete="current-password"
+                            >
+                            <button type="button" class="password-toggle" id="toggle-password">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Sign In Button -->
+                    <button type="submit" class="login-btn" id="login-btn">
+                        <i class="fa-solid fa-sign-in-alt"></i>
+                        Sign In to Dashboard
+                    </button>
+                    
+                    <!-- Back Button -->
+                    <a href="/" class="back-link">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Back to Main Site
+                    </a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const loginForm = document.getElementById('admin-login-form');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const loginBtn = document.getElementById('login-btn');
+            const errorMessage = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            const successMessage = document.getElementById('success-message');
+            const successText = document.getElementById('success-text');
+            const togglePasswordBtn = document.getElementById('toggle-password');
+            const togglePasswordIcon = togglePasswordBtn.querySelector('i');
+            
+            // Password toggle
+            togglePasswordBtn.addEventListener('click', function() {
+                const type = passwordInput.type === 'password' ? 'text' : 'password';
+                passwordInput.type = type;
+                togglePasswordIcon.className = type === 'password' ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+            });
+            
+            // Form validation
+            usernameInput.addEventListener('input', clearMessages);
+            passwordInput.addEventListener('input', clearMessages);
+            
+            function clearMessages() {
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+            }
+            
+            // Form submission
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value;
+                
+                if (!username || !password) {
+                    showError('Please enter both username and password');
+                    return;
+                }
+                
+                await loginAdmin(username, password);
+            });
+            
+            async function loginAdmin(username, password) {
+                try {
+                    // Disable form
+                    loginBtn.disabled = true;
+                    loginBtn.innerHTML = '<div class="spinner"></div> Verifying...';
+                    
+                    const response = await fetch('/api/admin/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ 
+                            username: username,
+                            password: password
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        // Show success and redirect
+                        showSuccess('Login successful! Redirecting...');
+                        
+                        // Redirect to dashboard after short delay
+                        setTimeout(() => {
+                            window.location.href = '/admin-panel';
+                        }, 1000);
+                        
+                    } else {
+                        throw new Error(data.error || 'Invalid username or password');
+                    }
+                    
+                } catch (error) {
+                    showError(error.message);
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '<i class="fa-solid fa-sign-in-alt"></i> Sign In to Dashboard';
+                }
+            }
+            
+            function showError(message) {
+                errorText.textContent = message;
+                errorMessage.style.display = 'flex';
+                successMessage.style.display = 'none';
+                
+                // Auto-hide error after 5 seconds
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            function showSuccess(message) {
+                successText.textContent = message;
+                successMessage.style.display = 'flex';
+                errorMessage.style.display = 'none';
+            }
+            
+            // Focus on username field on load
+            usernameInput.focus();
+        });
+    </script>
+</body>
+</html>
