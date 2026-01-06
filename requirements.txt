@@ -1,6 +1,4 @@
-﻿# Force wheels where possible (safe on Render)
---only-binary=:all:
-
+﻿
 # =========================
 # Web Frameworks
 # =========================
