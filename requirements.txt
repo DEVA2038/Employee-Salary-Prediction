@@ -1,4 +1,5 @@
-﻿annotated-doc==0.0.4
+﻿--only-binary=:all:
+annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.8.0
 APScheduler==3.10.4
@@ -74,8 +75,6 @@ pyasn1==0.6.1
 pyasn1_modules==0.4.2
 PyAutoGUI==0.9.54
 pycparser==2.23
-pydantic==2.10.6
-pydantic_core==2.27.2
 PyGetWindow==0.0.9
 PyMsgBox==1.0.9
 pyparsing==3.2.3
