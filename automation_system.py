@@ -1,417 +1,428 @@
-"""
-Automation System for Admin Portal
-Handles inactive accounts and low accuracy accounts with warning/notification system
-"""
-
+# automation_system.py - FIXED VERSION
 import logging
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone, timedelta
+from typing import Optional, List, Dict, Any, Tuple
 from sqlalchemy.orm import Session
 from database import CompanyUser, CompanyRequest
-import config
-from pathlib import Path
+from enum import Enum
+import traceback
 
 logger = logging.getLogger(__name__)
 
-class AccountStatus:
-    GREEN = "green"
-    YELLOW = "yellow"
-    ORANGE = "orange"
-    RED = "red"
-
-class AutomationMode:
-    AUTOMATED = "automated"
+class AutomationMode(Enum):
     MANUAL = "manual"
+    AUTOMATED = "automated"
 
-# automation_system.py - Fix the get_inactive_accounts method
 class AutomationSystem:
-    def __init__(self, db: Session, email_sender=None, mode=AutomationMode.MANUAL):
-        self.db = db
+    def __init__(self, db_session: Session, email_sender=None, mode=None):
+        self.db = db_session
         self.email_sender = email_sender
-        self.mode = mode
-        self.logger = logging.getLogger(__name__)
+        if isinstance(mode, AutomationMode):
+            self.mode = mode
+        elif isinstance(mode, str):
+            try:
+                self.mode = AutomationMode(mode)
+            except ValueError:
+                logger.warning(f"Invalid mode '{mode}', defaulting to MANUAL")
+                self.mode = AutomationMode.MANUAL
+        else:
+            logger.warning(f"Invalid mode type {type(mode)}, defaulting to MANUAL")
+            self.mode = AutomationMode.MANUAL
         
-    def get_inactive_accounts(self):
-        """Get list of inactive company accounts"""
+    def get_inactive_accounts(self, threshold_days: int = 14) -> List[Dict[str, Any]]:
+        """Get accounts that haven't logged in for threshold_days"""
         try:
-            inactive_accounts = []
+            current_time = datetime.now(timezone.utc)
+            cutoff_date = current_time - timedelta(days=threshold_days)
             
             # Get all active company users
             users = self.db.query(CompanyUser).filter(
                 CompanyUser.is_active == True
             ).all()
             
-            for user in users:
-                # Get company request for additional info
-                company_request = self.db.query(CompanyRequest).filter(
-                    CompanyRequest.username == user.username
-                ).first()
-                
-                if not company_request:
-                    continue
-                
-                # Calculate inactivity
-                if user.last_login_date:
-                    # Ensure both datetimes are aware
-                    last_login = user.last_login_date
-                    if last_login.tzinfo is None:
-                        last_login = last_login.replace(tzinfo=timezone.utc)
-                    
-                    current_time = datetime.now(timezone.utc)
-                    days_inactive = (current_time - last_login).days
-                else:
-                    days_inactive = 999  # Never logged in
-                
-                # Determine status based on inactivity
-                status = "active"
-                if days_inactive > 90:
-                    status = "critical"
-                elif days_inactive > 60:
-                    status = "warning_3"
-                elif days_inactive > 30:
-                    status = "warning_2"
-                elif days_inactive > 14:
-                    status = "warning_1"
-                
-                # Only include if inactive for more than 14 days
-                if days_inactive > 14:
-                    inactive_accounts.append({
-                        "user_id": user.id,
-                        "company_name": company_request.company_name,
-                        "email": company_request.email,
-                        "days_inactive": days_inactive,
-                        "status": status,
-                        "last_login_date": user.last_login_date.isoformat() if user.last_login_date else None,
-                        "company_request_id": company_request.id
-                    })
+            inactive_accounts = []
             
+            for user in users:
+                try:
+                    # Find corresponding company request
+                    company_request = self.db.query(CompanyRequest).filter(
+                        CompanyRequest.username == user.username
+                    ).first()
+                    
+                    if not company_request:
+                        logger.warning(f"No company request found for user: {user.username}")
+                        continue
+                    
+                    # Calculate days inactive with proper timezone handling
+                    days_inactive = 0
+                    
+                    if user.last_login_date:
+                        # Ensure both datetimes are timezone-aware
+                        last_login = user.last_login_date
+                        if last_login.tzinfo is None:
+                            # Make naive datetime timezone-aware (assume UTC)
+                            last_login = last_login.replace(tzinfo=timezone.utc)
+                        
+                        # Now both are timezone-aware
+                        days_inactive = (current_time - last_login).days
+                    else:
+                        # If never logged in, use created date
+                        if user.created_at:
+                            created = user.created_at
+                            if created.tzinfo is None:
+                                created = created.replace(tzinfo=timezone.utc)
+                            days_inactive = (current_time - created).days
+                        else:
+                            days_inactive = 999
+                    
+                    # Only include if inactive for more than threshold
+                    if days_inactive > threshold_days:
+                        # Determine status based on days
+                        status = self.get_inactivity_level(days_inactive)
+                        
+                        inactive_accounts.append({
+                            "user_id": user.id,
+                            "username": user.username,
+                            "company_name": company_request.company_name,
+                            "email": company_request.email or user.email,
+                            "days_inactive": days_inactive,
+                            "status": status,
+                            "last_login_date": user.last_login_date,
+                            "company_request_id": company_request.id
+                        })
+                        
+                except Exception as user_error:
+                    logger.error(f"Error processing user {user.id}: {user_error}")
+                    continue
+            
+            logger.info(f"Found {len(inactive_accounts)} inactive accounts (>{threshold_days} days)")
             return inactive_accounts
             
         except Exception as e:
-            self.logger.error(f"Error in get_inactive_accounts: {e}")
+            logger.error(f"Error in get_inactive_accounts: {e}")
+            logger.error(traceback.format_exc())
             return []
     
-    def get_inactivity_level(self, last_login_date):
-        """Determine inactivity level based on last login"""
-        if not last_login_date:
-            return AccountStatus.RED, "No login history"
-        
-        current_time = datetime.now(timezone.utc)
-        days_inactive = (current_time - last_login_date).days
-        
-        if days_inactive >= 180:  # 6 months
-            return AccountStatus.RED, f"Inactive for {days_inactive} days (≥6 months)"
-        elif days_inactive >= 90:  # 3-5 months
-            return AccountStatus.ORANGE, f"Inactive for {days_inactive} days (3-5 months)"
-        elif days_inactive >= 60:  # 2-3 months
-            return AccountStatus.YELLOW, f"Inactive for {days_inactive} days (2-3 months)"
+    def get_inactivity_level(self, days_inactive: int) -> Tuple[str, str]:
+        """Determine inactivity level and message"""
+        if days_inactive > 90:
+            return "critical", f"Account inactive for {days_inactive} days. Immediate deletion recommended."
+        elif days_inactive > 60:
+            return "warning_3", f"Account inactive for {days_inactive} days. Final warning."
+        elif days_inactive > 30:
+            return "warning_2", f"Account inactive for {days_inactive} days. Second warning."
+        elif days_inactive > 14:
+            return "warning_1", f"Account inactive for {days_inactive} days. First warning."
         else:
-            return AccountStatus.GREEN, f"Active (inactive for {days_inactive} days)"
+            return "active", "Account is active"
     
-    def get_inactive_accounts(self):
-        """Get all inactive accounts with their status levels"""
-        inactive_accounts = []
-        company_users = self.db.query(CompanyUser).all()
-        
-        for user in company_users:
-            status, message = self.get_inactivity_level(user.last_login_date)
-            
-            if status != AccountStatus.GREEN:
-                company_request = self.db.query(CompanyRequest).filter(
-                    CompanyRequest.username == user.username
-                ).first()
-                
-                if company_request:
-                    inactive_accounts.append({
-                        "user_id": user.id,
-                        "username": user.username,
-                        "company_name": user.company_name,
-                        "email": user.email,
-                        "last_login": user.last_login_date.isoformat() if user.last_login_date else "Never",
-                        "status": status,
-                        "status_message": message,
-                        "company_request_id": company_request.id,
-                        "warnings_sent": getattr(user, 'warnings_sent', 0) or 0,
-                        "last_warning_sent": getattr(user, 'last_warning_sent', None)
-                    })
-        return inactive_accounts
-    
-    def _trigger_email(self, subject, body, to_email):
-        """Internal helper to use the injected email sender"""
-        if self.email_sender:
-            try:
-                return self.email_sender(subject, body, [to_email])
-            except Exception as e:
-                logger.error(f"Email callback failed: {e}")
-                return False
-        else:
-            logger.warning(f"No email sender configured. Mocking email to {to_email}")
-            return True # Assume success if no sender is configured (Mock Mode)
-
-    def send_inactivity_warning(self, user, company_request, level, days_inactive):
-        """Send inactivity warning email"""
-        subject = f"Account Inactivity Warning - {user.company_name}"
-        
-        if level == AccountStatus.ORANGE:
-            body = f"""
-            Dear {user.username},
-            
-            Your account for {user.company_name} has been inactive for {days_inactive} days (3-5 months).
-            
-            WARNING: If you don't log in and use the prediction service within the next month, 
-            your account will be marked for deletion.
-            
-            To keep your account active, please log in and make at least one prediction.
-            
-            Login URL: http://localhost:5000/company-login
-            
-            Best regards,
-            Admin Team - AI Salary Predictor
-            """
-        elif level == AccountStatus.RED:
-            body = f"""
-            URGENT: Account Deletion Warning - {user.company_name}
-            
-            Dear {user.username},
-            
-            Your account has been inactive for {days_inactive} days (≥6 months).
-            
-            FINAL NOTICE: Your account is scheduled for deletion in 7 days.
-            
-            If you want to use this account in the future, please log in and use the prediction app 
-            within the next 7 days to reset your account status.
-            
-            Login URL: http://localhost:5000/company-login
-            
-            After 7 days of inactivity, your account and all associated data will be 
-            permanently deleted.
-            
-            Best regards,
-            Admin Team - AI Salary Predictor
-            """
-        else:
-            return False
-        
-        success = self._trigger_email(subject, body, user.email)
-        if success:
-            user.warnings_sent = (user.warnings_sent or 0) + 1
-            user.last_warning_sent = datetime.now(timezone.utc)
-            self.db.commit()
-            logger.info(f"Sent {level} warning to {user.email}")
-        return success
-    
-    def send_deletion_notification(self, user, company_request):
-        """Send account deletion notification"""
-        subject = f"Account Deleted Due to Inactivity - {user.company_name}"
-        body = f"""
-        Dear {user.username},
-        
-        Your account for {user.company_name} has been permanently deleted due to prolonged inactivity.
-        
-        All associated data including:
-        - Company profile
-        - Trained model
-        - Dataset files
-        - Prediction history
-        
-        ...has been removed from our system.
-        
-        If you wish to use our services again in the future, you'll need to submit a new company request.
-        
-        Thank you for using our service.
-        
-        Best regards,
-        Admin Team - AI Salary Predictor
-        """
-        
-        success = self._trigger_email(subject, body, user.email)
-        if success:
-            logger.info(f"Sent deletion notification to {user.email}")
-        return success
-    
-    def delete_inactive_account(self, user, company_request):
-        """Delete inactive account and all associated files"""
+    def get_low_accuracy_accounts(self, threshold: float = 0.65) -> List[Dict[str, Any]]:
+        """Get accounts with model accuracy below threshold"""
         try:
-            company_name = user.company_name
+            low_acc_accounts = []
             
-            # 1. Delete model files
-            if company_request.model_filename:
-                model_path = config.COMPANY_MODELS_FOLDER / company_request.model_filename
-                if model_path.exists():
-                    model_path.unlink()
+            # Get all approved company requests
+            company_requests = self.db.query(CompanyRequest).filter(
+                CompanyRequest.status == "approved",
+                CompanyRequest.model_accuracy != None
+            ).all()
             
-            # 2. Delete options file
-            options_filename = f"{company_name.replace(' ', '_').lower()}_options.json"
-            options_path = config.COMPANY_MODELS_FOLDER / options_filename
-            if options_path.exists():
-                options_path.unlink()
+            for req in company_requests:
+                try:
+                    accuracy = float(req.model_accuracy or 0)
+                    if accuracy < threshold:
+                        # Find corresponding user
+                        user = self.db.query(CompanyUser).filter(
+                            CompanyUser.username == req.username
+                        ).first()
+                        
+                        if user:
+                            low_acc_accounts.append({
+                                "user_id": user.id,
+                                "username": user.username,
+                                "company_name": req.company_name,
+                                "model_accuracy": accuracy,
+                                "company_request_id": req.id,
+                                "last_accuracy_check": req.updated_at
+                            })
+                except Exception as req_error:
+                    logger.error(f"Error processing request {req.id}: {req_error}")
+                    continue
             
-            # 3. Delete metadata file
-            metadata_filename = f"{company_name.replace(' ', '_').lower()}_metadata.json"
-            metadata_path = config.COMPANY_MODELS_FOLDER / metadata_filename
-            if metadata_path.exists():
-                metadata_path.unlink()
+            logger.info(f"Found {len(low_acc_accounts)} accounts with accuracy < {threshold}")
+            return low_acc_accounts
             
-            # 4. Delete dataset file
-            if company_request.dataset_filename:
-                dataset_path = config.UPLOAD_FOLDER / company_request.dataset_filename
-                if dataset_path.exists():
-                    dataset_path.unlink()
+        except Exception as e:
+            logger.error(f"Error in get_low_accuracy_accounts: {e}")
+            return []
+    
+    def send_inactivity_warning(self, user: CompanyUser, company_request: CompanyRequest, 
+                              level: str, days_inactive: int) -> bool:
+        """Send inactivity warning email"""
+        try:
+            if not self.email_sender:
+                logger.warning("Email sender not configured")
+                return False
             
-            # 5. Delete from database
-            self.db.delete(company_request)
-            self.db.delete(user)
+            subject = f"Account Inactivity Warning - {company_request.company_name}"
+            
+            # Customize message based on level
+            if level == "critical":
+                warning_msg = "IMMEDIATE ACTION REQUIRED: Your account will be deleted in 7 days due to prolonged inactivity."
+            elif level == "warning_3":
+                warning_msg = "FINAL WARNING: Your account will be deleted soon due to inactivity."
+            elif level == "warning_2":
+                warning_msg = "SECOND WARNING: Your account has been inactive for an extended period."
+            else:
+                warning_msg = "REMINDER: Your account has been inactive for a while."
+            
+            body = f"""
+            Dear {company_request.contact_person},
+            
+            {warning_msg}
+            
+            Account Details:
+            - Company: {company_request.company_name}
+            - Days Inactive: {days_inactive}
+            - Last Login: {user.last_login_date.strftime('%Y-%m-%d %H:%M:%S') if user.last_login_date else 'Never'}
+            
+            To keep your account active, please login to the system.
+            
+            Login URL: http://localhost:5000/company-login
+            
+            If you no longer wish to use our services, you can ignore this email.
+            Accounts inactive for more than 90 days are automatically deleted.
+            
+            Best regards,
+            AI Salary Predictor Admin Team
+            """
+            
+            # Send email
+            success = self.email_sender(
+                subject=subject,
+                body=body,
+                to_emails=[company_request.email]
+            )
+            
+            if success:
+                logger.info(f"Sent inactivity warning to {company_request.company_name} (Level: {level})")
+            else:
+                logger.warning(f"Failed to send inactivity warning to {company_request.company_name}")
+            
+            return success
+            
+        except Exception as e:
+            logger.error(f"Error sending inactivity warning: {e}")
+            return False
+    
+    def send_low_accuracy_warning(self, user: CompanyUser, company_request: CompanyRequest, 
+                                 accuracy: float) -> bool:
+        """Send low accuracy warning email"""
+        try:
+            if not self.email_sender:
+                logger.warning("Email sender not configured")
+                return False
+            
+            subject = f"Model Accuracy Alert - {company_request.company_name}"
+            
+            body = f"""
+            Dear {company_request.contact_person},
+            
+            Your salary prediction model accuracy has dropped below acceptable levels.
+            
+            Model Details:
+            - Current Accuracy: {accuracy:.2%}
+            - Recommended Action: Retrain your model with updated data
+            
+            Low accuracy can lead to unreliable predictions. We recommend:
+            1. Uploading more recent salary data
+            2. Retraining your model via the dashboard
+            3. Contacting support if you need assistance
+            
+            Login to your dashboard to retrain: http://localhost:5000/company-dashboard
+            
+            If accuracy remains low, your access to predictions may be limited.
+            
+            Best regards,
+            AI Salary Predictor Admin Team
+            """
+            
+            # Send email
+            success = self.email_sender(
+                subject=subject,
+                body=body,
+                to_emails=[company_request.email]
+            )
+            
+            if success:
+                logger.info(f"Sent low accuracy warning to {company_request.company_name}")
+            else:
+                logger.warning(f"Failed to send low accuracy warning to {company_request.company_name}")
+            
+            return success
+            
+        except Exception as e:
+            logger.error(f"Error sending low accuracy warning: {e}")
+            return False
+    
+    def delete_inactive_account(self, user: CompanyUser, company_request: CompanyRequest) -> bool:
+        """Delete inactive account and associated data"""
+        try:
+            company_name = company_request.company_name
+            
+            # Send deletion notification
+            if self.email_sender:
+                subject = f"Account Deleted - {company_name}"
+                body = f"""
+                Dear {company_request.contact_person},
+                
+                Your account for {company_name} has been deleted due to prolonged inactivity.
+                
+                Account Details:
+                - Company: {company_name}
+                - Username: {user.username}
+                - Deletion Reason: Account inactive for more than 90 days
+                
+                If this was a mistake or you wish to reactivate your account, 
+                please contact our support team.
+                
+                All associated data including your custom model has been removed.
+                
+                Best regards,
+                AI Salary Predictor Admin Team
+                """
+                
+                self.email_sender(
+                    subject=subject,
+                    body=body,
+                    to_emails=[company_request.email]
+                )
+            
+            # Mark user as inactive (soft delete)
+            user.is_active = False
+            user.updated_at = datetime.now(timezone.utc)
+            
+            # Mark company request as deleted
+            company_request.status = "deleted"
+            company_request.updated_at = datetime.now(timezone.utc)
+            
+            # Commit changes
             self.db.commit()
             
-            logger.warning(f"Deleted inactive account: {company_name} (User: {user.username})")
+            logger.info(f"Deleted inactive account: {company_name}")
             return True
             
         except Exception as e:
-            logger.error(f"Error deleting account {user.username}: {e}")
+            logger.error(f"Error deleting account: {e}")
             self.db.rollback()
             return False
     
-    def process_inactive_accounts(self):
-        """Process all inactive accounts based on automation mode"""
-        if self.mode != AutomationMode.AUTOMATED:
-            return []
-        
-        results = []
-        inactive_accounts = self.get_inactive_accounts()
-        
-        for account in inactive_accounts:
-            user = self.db.query(CompanyUser).filter(CompanyUser.id == account["user_id"]).first()
-            company_request = self.db.query(CompanyRequest).filter(CompanyRequest.id == account["company_request_id"]).first()
-            
-            if not user or not company_request: continue
-            
-            status = account["status"]
-            last_login = user.last_login_date
-            current_time = datetime.now(timezone.utc)
-            
-            if status == AccountStatus.ORANGE:
-                days_inactive = (current_time - last_login).days if last_login else 999
-                self.send_inactivity_warning(user, company_request, status, days_inactive)
-                results.append({"action": "warning_sent", "company": user.company_name, "level": "orange"})
-                
-            elif status == AccountStatus.RED:
-                last_warning = user.last_warning_sent
-                if not last_warning:
-                    days_inactive = (current_time - last_login).days if last_login else 999
-                    self.send_inactivity_warning(user, company_request, status, days_inactive)
-                    results.append({"action": "final_warning_sent", "company": user.company_name})
-                elif (current_time - last_warning).days >= 7:
-                    self.send_deletion_notification(user, company_request)
-                    success = self.delete_inactive_account(user, company_request)
-                    if success:
-                        results.append({"action": "account_deleted", "company": user.company_name, "reason": "inactivity"})
-        
-        return results
-    
-    def get_low_accuracy_accounts(self, threshold=0.70):
-        """Get accounts with model accuracy below threshold"""
-        low_accuracy_accounts = []
-        company_requests = self.db.query(CompanyRequest).filter(
-            CompanyRequest.status == "approved",
-            CompanyRequest.model_accuracy.isnot(None),
-            CompanyRequest.model_accuracy < threshold
-        ).all()
-        
-        for request in company_requests:
-            user = self.db.query(CompanyUser).filter(CompanyUser.username == request.username).first()
-            if user:
-                low_accuracy_accounts.append({
-                    "company_request_id": request.id,
-                    "company_name": request.company_name,
-                    "username": request.username,
-                    "email": request.email,
-                    "model_accuracy": float(request.model_accuracy),
-                    "user_id": user.id,
-                    "data_points": request.data_points or 0,
-                    "accuracy_warning_sent": getattr(request, 'accuracy_warning_sent', False) or False,
-                    "last_accuracy_check": getattr(request, 'last_accuracy_check', None)
-                })
-        return low_accuracy_accounts
-    
-    def send_low_accuracy_warning(self, user, company_request, accuracy):
-        """Send low accuracy warning email"""
-        subject = f"Low Model Accuracy Alert - {user.company_name}"
-        body = f"""
-        Dear {user.username},
-        
-        Our system has detected that your company's salary prediction model has low accuracy ({accuracy:.1%}).
-        
-        RECOMMENDATION: 
-        1. Upload a larger or more diverse dataset
-        2. Ensure your dataset has proper formatting
-        
-        Login URL: http://localhost:5000/company-login
-        
-        Best regards,
-        Admin Team - AI Salary Predictor
-        """
-        
-        success = self._trigger_email(subject, body, user.email)
-        if success:
-            company_request.accuracy_warning_sent = True
-            company_request.last_accuracy_check = datetime.now(timezone.utc)
-            self.db.commit()
-            logger.info(f"Sent low accuracy warning to {user.email}")
-        return success
-    
-    def send_accuracy_deletion_notification(self, user, company_request, accuracy):
-        subject = f"Account Suspended - Low Model Accuracy - {user.company_name}"
-        body = f"""
-        Dear {user.username},
-        
-        Your account for {user.company_name} has been suspended due to persistently low model accuracy ({accuracy:.1%}).
-        
-        All associated data has been removed from our system.
-        
-        Best regards,
-        Admin Team - AI Salary Predictor
-        """
-        
-        success = self._trigger_email(subject, body, user.email)
-        return success
-    
-    def delete_low_accuracy_account(self, user, company_request):
-        return self.delete_inactive_account(user, company_request)
-    
-    def process_low_accuracy_accounts(self, threshold=0.70):
-        if self.mode != AutomationMode.AUTOMATED: return []
-        
-        results = []
-        low_acc_accounts = self.get_low_accuracy_accounts(threshold)
-        
-        for account in low_acc_accounts:
-            user = self.db.query(CompanyUser).filter(CompanyUser.username == account["username"]).first()
-            company_request = self.db.query(CompanyRequest).filter(CompanyRequest.id == account["company_request_id"]).first()
-            
-            if not user or not company_request: continue
-            
-            accuracy = account["model_accuracy"]
-            warning_sent = account["accuracy_warning_sent"]
-            
-            if not warning_sent:
-                self.send_low_accuracy_warning(user, company_request, accuracy)
-                results.append({"action": "accuracy_warning_sent", "company": user.company_name})
-            else:
-                last_check = company_request.last_accuracy_check
-                if last_check and (datetime.now(timezone.utc) - last_check).days >= 30:
-                    if accuracy < threshold:
-                        self.send_accuracy_deletion_notification(user, company_request, accuracy)
-                        success = self.delete_low_accuracy_account(user, company_request)
-                        if success:
-                            results.append({"action": "account_deleted", "company": user.company_name, "reason": "low_accuracy"})
-        return results
-    
-    def run_automation(self):
+    def run_automation(self) -> Dict[str, Any]:
         """Run all automation processes"""
-        logger.info("Running automation processes...")
-        results = {
-            "inactive_accounts_processed": self.process_inactive_accounts(),
-            "low_accuracy_accounts_processed": self.process_low_accuracy_accounts(),
-            "timestamp": datetime.now(timezone.utc).isoformat()
-        }
-        logger.info(f"Automation completed. Results: {results}")
-        return results
+        try:
+            logger.info("Running automation processes...")
+            
+            # Handle both string and enum mode values
+            mode_value = self.mode.value if hasattr(self.mode, 'value') else str(self.mode)
+            
+            results = {
+                "inactive_warnings_sent": 0,
+                "accuracy_warnings_sent": 0,
+                "accounts_deleted": 0,
+                "mode": mode_value  # Use the converted value
+            }
+            
+            # Get inactive accounts
+            inactive_accounts = self.get_inactive_accounts(threshold_days=14)
+            low_accuracy_accounts = self.get_low_accuracy_accounts(threshold=0.65)
+            
+            # Convert mode to enum for comparisons
+            current_mode = self.mode
+            if isinstance(current_mode, str):
+                # Convert string to enum for comparison
+                current_mode = AutomationMode(current_mode)
+            
+            # Process inactive accounts
+            for account in inactive_accounts:
+                try:
+                    user = self.db.query(CompanyUser).filter(
+                        CompanyUser.id == account["user_id"]
+                    ).first()
+                    
+                    company_request = self.db.query(CompanyRequest).filter(
+                        CompanyRequest.id == account["company_request_id"]
+                    ).first()
+                    
+                    if not user or not company_request:
+                        continue
+                    
+                    # Check if we should take action based on mode
+                    should_warn = (
+                        current_mode == AutomationMode.AUTOMATED or 
+                        account["status"] in ["critical", "warning_3"]
+                    )
+                    
+                    if should_warn:
+                        # Send warning based on level
+                        success = self.send_inactivity_warning(
+                            user, company_request, 
+                            account["status"], account["days_inactive"]
+                        )
+                        
+                        if success:
+                            results["inactive_warnings_sent"] += 1
+                    
+                    # Delete critical accounts (90+ days) in automated mode
+                    if current_mode == AutomationMode.AUTOMATED and account["status"] == "critical":
+                        success = self.delete_inactive_account(user, company_request)
+                        if success:
+                            results["accounts_deleted"] += 1
+                            
+                except Exception as e:
+                    logger.error(f"Error processing inactive account {account.get('user_id')}: {e}")
+                    continue
+            
+            # Process low accuracy accounts
+            for account in low_accuracy_accounts:
+                try:
+                    user = self.db.query(CompanyUser).filter(
+                        CompanyUser.id == account["user_id"]
+                    ).first()
+                    
+                    company_request = self.db.query(CompanyRequest).filter(
+                        CompanyRequest.id == account["company_request_id"]
+                    ).first()
+                    
+                    if not user or not company_request:
+                        continue
+                    
+                    # Send warning in automated mode or for very low accuracy
+                    if current_mode == AutomationMode.AUTOMATED or account["model_accuracy"] < 0.5:
+                        success = self.send_low_accuracy_warning(
+                            user, company_request, account["model_accuracy"]
+                        )
+                        
+                        if success:
+                            results["accuracy_warnings_sent"] += 1
+                            
+                except Exception as e:
+                    logger.error(f"Error processing low accuracy account {account.get('user_id')}: {e}")
+                    continue
+            
+            logger.info(f"Automation completed: {results}")
+            return results
+            
+        except Exception as e:
+            logger.error(f"Error in run_automation: {e}")
+            logger.error(traceback.format_exc())
+            
+            # Handle both string and enum mode values in error response too
+            mode_value = self.mode.value if hasattr(self.mode, 'value') else str(self.mode)
+            
+            return {
+                "error": str(e),
+                "inactive_warnings_sent": 0,
+                "accuracy_warnings_sent": 0,
+                "accounts_deleted": 0,
+                "mode": mode_value
+            }

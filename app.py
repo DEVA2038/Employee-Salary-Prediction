@@ -42,7 +42,7 @@ app = Flask(__name__,
             template_folder='templates')
 # Global Automation Settings
 AUTOMATION_SETTINGS = {
-    "mode": AutomationMode.MANUAL
+    "mode": "manual"
 }
 # Enhanced session configuration
 app.secret_key = 'your-secret-key-here-change-in-production-12345'
@@ -835,14 +835,14 @@ def automation_settings():
     if request.method == 'POST':
         data = request.get_json()
         mode = data.get('mode')
-        if mode in [AutomationMode.MANUAL, AutomationMode.AUTOMATED]:
+        if mode in ['manual', 'automated']:  # String values
             AUTOMATION_SETTINGS['mode'] = mode
             return jsonify({"message": "Settings updated", "mode": mode})
         return jsonify({"error": "Invalid mode"}), 400
-    return jsonify(AUTOMATION_SETTINGS)
-
-# In app.py, update the /api/admin/inactive-accounts endpoint
-# In app.py, update the inactive accounts endpoint with better error handling
+    
+    # Return mode as string
+    return jsonify({"mode": AUTOMATION_SETTINGS['mode']})
+# In app.py, update the get_inactive_accounts function
 @app.route('/api/admin/inactive-accounts')
 @admin_login_required
 def get_inactive_accounts():
@@ -869,13 +869,15 @@ def get_inactive_accounts():
                     logger.warning(f"No company request found for user: {user.username}")
                     continue
                 
-                # Calculate days inactive
+                # Calculate days inactive with proper timezone handling
                 days_inactive = 0
                 if user.last_login_date:
-                    # Handle timezone-aware datetime
+                    # Ensure both datetimes are timezone-aware
                     last_login = user.last_login_date
                     if last_login.tzinfo is None:
                         last_login = last_login.replace(tzinfo=timezone.utc)
+                    
+                    # Now both are timezone-aware
                     days_inactive = (current_time - last_login).days
                 else:
                     # If never logged in, use created date
@@ -1025,7 +1027,7 @@ def run_automation():
     """Manually trigger the automation logic (check all accounts now)"""
     try:
         db: Session = next(get_db())
-        mode = AUTOMATION_SETTINGS.get('mode', AutomationMode.MANUAL)
+        mode = AUTOMATION_SETTINGS.get('mode', 'manual')  # Get as string
         
         # Initialize System with Email Sender
         system = AutomationSystem(db, email_sender=_send_email, mode=mode)
@@ -1036,10 +1038,12 @@ def run_automation():
                 "inactive_accounts_found": len(system.get_inactive_accounts()),
                 "low_accuracy_accounts_found": len(system.get_low_accuracy_accounts()),
                 "processed_actions": results,
-                "mode": mode
+                "mode": results.get('mode', mode)  # Use mode from results
             }
         }
-        if mode == AutomationMode.MANUAL:
+        
+        # Check if mode is manual
+        if mode == 'manual':
             response["note"] = "MANUAL mode active. No automatic actions were taken."
             
         return jsonify(response)
@@ -1047,20 +1051,40 @@ def run_automation():
         logger.error(f"Automation run error: {e}")
         return jsonify({"error": str(e)}), 500
 
+# Example for one endpoint - update all three similarly
 @app.route('/api/admin/manual/warn-inactive/<int:user_id>', methods=['POST'])
 @admin_login_required
 def manual_warn_inactive(user_id):
     """Manually send an inactivity warning email"""
     try:
         db: Session = next(get_db())
-        system = AutomationSystem(db, email_sender=_send_email, mode=AutomationMode.MANUAL)
+        # Pass string mode instead of enum
+        system = AutomationSystem(db, email_sender=_send_email, mode='manual')
         
         user = db.query(CompanyUser).filter(CompanyUser.id == user_id).first()
         if not user: return jsonify({"error": "User not found"}), 404
         
         company_request = db.query(CompanyRequest).filter(CompanyRequest.username == user.username).first()
-        status, _ = system.get_inactivity_level(user.last_login_date)
-        days = (datetime.now(timezone.utc) - user.last_login_date).days if user.last_login_date else 0
+        
+        # Calculate days inactive
+        days = 0
+        if user.last_login_date:
+            current_time = datetime.now(timezone.utc)
+            last_login = user.last_login_date
+            if last_login.tzinfo is None:
+                last_login = last_login.replace(tzinfo=timezone.utc)
+            days = (current_time - last_login).days
+        
+        # Get status
+        status = "warning_1"
+        if days > 90:
+            status = "critical"
+        elif days > 60:
+            status = "warning_3"
+        elif days > 30:
+            status = "warning_2"
+        elif days > 14:
+            status = "warning_1"
         
         success = system.send_inactivity_warning(user, company_request, status, days)
         if success:

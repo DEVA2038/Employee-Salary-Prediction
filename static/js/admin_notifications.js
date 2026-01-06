@@ -520,11 +520,12 @@ async function setupAutomationToggle() {
         if (!res.ok) throw new Error('Failed to load settings');
         
         const data = await res.json();
+        // Compare with string values
         toggle.checked = (data.mode === 'automated');
         updateModeText(toggle.checked);
         
         toggle.addEventListener('change', async (e) => {
-            const mode = e.target.checked ? 'automated' : 'manual';
+            const mode = e.target.checked ? 'automated' : 'manual';  // String values
             const button = e.target;
             button.disabled = true;
             
@@ -532,7 +533,7 @@ async function setupAutomationToggle() {
                 const res = await fetch('/api/admin/automation/settings', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({mode})
+                    body: JSON.stringify({mode: mode})  // Send string
                 });
                 
                 if (res.ok) {
@@ -554,7 +555,6 @@ async function setupAutomationToggle() {
         showErrorToast('Failed to load automation settings');
     }
 }
-
 function updateModeText(isAuto) {
     const desc = document.getElementById('mode-description');
     if (isAuto) {
