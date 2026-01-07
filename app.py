@@ -385,18 +385,25 @@ def send_company_credentials(company_request, username, password):
         return False
 
 # --- Load Artifacts ---
+# --- Load Artifacts ---
 try:
+    # Attempt to load the model
     model = load(MODEL_PATH)
+    
     with open(OPTIONS_PATH, "r") as f:
         options = json.load(f)
     with open(METADATA_PATH, "r") as f:
         metadata = json.load(f)
+        
     print("✅ Model and metadata loaded successfully.")
     print(f"📊 Model expects {len(metadata.get('numeric_cols', []))} numeric and {len(metadata.get('categorical_cols', []))} categorical features")
-except FileNotFoundError as e:
+
+except (FileNotFoundError, Exception) as e:
+    # Catching generic Exception handles the KeyError: 118 (corruption)
     print(f"❌ Error loading model artifacts: {e}")
-    print("Please run train.py first to generate the model files.")
-    # Create dummy data to prevent crashes
+    print("⚠️  The system will start in LIMITED mode. Please run 'python train.py' to generate/fix the model.")
+    
+    # Create dummy data to prevent crashes so the server still runs
     options = {"categorical": {}, "numeric_meta": {}}
     metadata = {"numeric_cols": [], "categorical_cols": [], "model_name": "Demo"}
     model = None
