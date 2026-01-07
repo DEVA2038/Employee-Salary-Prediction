@@ -1,4 +1,9 @@
 ﻿# =========================
+# Web Server (REQUIRED FOR DEPLOYMENT)
+# =========================
+gunicorn==23.0.0
+
+# =========================
 # Web Frameworks
 # =========================
 Flask==3.1.2
@@ -56,7 +61,6 @@ pyasn1_modules==0.4.2
 # =========================
 # Data Science / ML
 # =========================
-# UPDATED: Python 3.13 requires newer numpy
 numpy>=2.1.0
 pandas==2.2.3
 scikit-learn==1.6.1
@@ -74,7 +78,6 @@ regex>=2024.11.6
 # =========================
 # Deep Learning / NLP
 # =========================
-# UPDATED: Torch 2.6+ is required for Python 3.13
 torch>=2.6.0
 torchvision>=0.21.0
 transformers>=4.48.0
