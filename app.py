@@ -20,8 +20,9 @@ from datetime import datetime, timedelta, timezone
 import train_company
 import logging
 from functools import wraps
-
-# NEW imports for email
+from apscheduler.schedulers.background import BackgroundScheduler
+import pytz
+import atexit
 import smtplib
 import ssl
 from email.message import EmailMessage
@@ -2106,7 +2107,48 @@ def not_found(error):
 @app.errorhandler(500)
 def internal_error(error):
     return "Internal server error.", 500
+def scheduled_automation_task():
+    """
+    This runs automatically every 1 hour.
+    It checks if the admin has enabled 'Automated Mode'.
+    """
+    with app.app_context():
+        # 1. Check the current mode set by the admin toggle
+        current_mode = AUTOMATION_SETTINGS.get('mode', 'manual')
+        
+        # 2. IF Manual: Do nothing (just log it)
+        if current_mode != 'automated':
+            logger.info("ℹ️ Scheduler ran, but system is in MANUAL mode. Skipping tasks.")
+            return
 
+        # 3. IF Automated: Run the logic
+        try:
+            logger.info("🤖 System is in AUTOMATED mode. Running scheduled checks...")
+            db: Session = next(get_db())
+            
+            # Initialize system in automated mode
+            system = AutomationSystem(db, email_sender=_send_email, mode='automated')
+            
+            # Execute warning emails and deletions
+            results = system.run_automation()
+            
+            logger.info(f"✅ Automated Task Completed: {results}")
+            
+        except Exception as e:
+            logger.error(f"❌ Automated Task Failed: {e}")
+
+# Initialize Scheduler
+# We use Asia/Kolkata timezone to ensure logs match your local time
+scheduler = BackgroundScheduler(timezone=pytz.timezone('Asia/Kolkata'))
+
+# Add the job to run every 60 minutes
+scheduler.add_job(func=scheduled_automation_task, trigger="interval", minutes=60)
+
+# Start the scheduler
+scheduler.start()
+
+# Ensure scheduler shuts down when app exits
+atexit.register(lambda: scheduler.shutdown())
 if __name__ == '__main__':
     print("🚀 Starting AI Salary Predictor...")
     print("=" * 60)
@@ -2129,5 +2171,5 @@ if __name__ == '__main__':
     print("   - index.html, company_request.html, company_login.html")
     print("   - company_dashboard.html, admin_panel.html, admin_login.html")
     print("=" * 60)
-    
+    print("🚀 Starting AI Salary Predictor with Automation Scheduler...")
     app.run(host='0.0.0.0', port=5000, debug=True)
